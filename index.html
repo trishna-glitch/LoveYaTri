@@ -101,7 +101,6 @@
 
     .page-wrapper {
       position: absolute;
-
       inset: 0;
 
       width: 100%;
@@ -320,7 +319,6 @@
 
     .arrow-btn.disabled {
       opacity: 0.2;
-
       pointer-events: none;
     }
 
@@ -402,6 +400,8 @@
       -webkit-overflow-scrolling: touch;
 
       scrollbar-width: none;
+
+      touch-action: pan-x;
     }
 
     .nav-dock-scroll::-webkit-scrollbar {
@@ -410,7 +410,6 @@
 
     .nav-group {
       display: flex;
-
       flex-direction: column;
 
       gap: 3px;
@@ -431,13 +430,11 @@
 
     .nav-group:last-child {
       border-right: none;
-
       padding-right: 0;
     }
 
     .nav-group-title {
       font-size: 0.6rem;
-
       font-weight: bold;
 
       color: #721c24;
@@ -452,7 +449,6 @@
 
     .nav-thumbs-row {
       display: flex;
-
       gap: 3px;
     }
 
@@ -500,7 +496,6 @@
 
     .nav-thumb.locked-thumb {
       opacity: 0.4;
-
       filter: grayscale(1);
     }
 
@@ -561,7 +556,6 @@
 
     /* ========================================
        HALDI COLOUR SPLASH
-       Real splatter style rather than circles
        ======================================== */
 
     .holi-splash-overlay {
@@ -584,6 +578,7 @@
       position: absolute;
 
       width: 48%;
+
       aspect-ratio: 1;
 
       opacity: 0;
@@ -674,7 +669,6 @@
 
     .holi-splash-one {
       left: -7%;
-
       top: 25%;
 
       --rotation: -18deg;
@@ -691,7 +685,6 @@
 
     .holi-splash-two {
       right: -8%;
-
       top: 38%;
 
       --rotation: 19deg;
@@ -708,7 +701,6 @@
 
     .holi-splash-three {
       left: 24%;
-
       top: 47%;
 
       width: 42%;
@@ -727,7 +719,6 @@
 
     .holi-splash-four {
       right: 14%;
-
       top: 20%;
 
       width: 34%;
@@ -744,18 +735,18 @@
     }
 
 
+    /*
+      HALDI SPLASH NOW DISAPPEARS
+      COMPLETELY AFTER ABOUT 2 SECONDS
+    */
+
     #page11Wrapper.active
     .holi-splash-one {
       animation:
         holiSplashPop
-        1.2s
-        cubic-bezier(
-          0.17,
-          0.67,
-          0.26,
-          1.25
-        )
-        0.05s
+        1.8s
+        ease-out
+        0s
         both;
     }
 
@@ -764,14 +755,9 @@
     .holi-splash-two {
       animation:
         holiSplashPop
-        1.25s
-        cubic-bezier(
-          0.17,
-          0.67,
-          0.26,
-          1.25
-        )
-        0.18s
+        1.8s
+        ease-out
+        0.05s
         both;
     }
 
@@ -780,14 +766,9 @@
     .holi-splash-three {
       animation:
         holiSplashPop
-        1.3s
-        cubic-bezier(
-          0.17,
-          0.67,
-          0.26,
-          1.25
-        )
-        0.30s
+        1.8s
+        ease-out
+        0.10s
         both;
     }
 
@@ -796,14 +777,9 @@
     .holi-splash-four {
       animation:
         holiSplashPop
-        1.2s
-        cubic-bezier(
-          0.17,
-          0.67,
-          0.26,
-          1.25
-        )
-        0.42s
+        1.8s
+        ease-out
+        0.15s
         both;
     }
 
@@ -818,25 +794,35 @@
           rotate(var(--rotation));
       }
 
-      45% {
-        opacity: 1;
+
+      20% {
+        opacity: 0.95;
 
         transform:
           scale(1.12)
           rotate(var(--rotation));
       }
 
-      70% {
-        transform:
-          scale(0.96)
-          rotate(var(--rotation));
-      }
 
-      100% {
-        opacity: 0.88;
+      55% {
+        opacity: 0.85;
 
         transform:
           scale(1)
+          rotate(var(--rotation));
+      }
+
+
+      75% {
+        opacity: 0.55;
+      }
+
+
+      100% {
+        opacity: 0;
+
+        transform:
+          scale(1.05)
           rotate(var(--rotation));
       }
 
@@ -880,8 +866,7 @@
 
       background: #ff4d6d;
 
-      border-radius:
-        50% 0 50% 50%;
+      border-radius: 50% 0 50% 50%;
 
       animation:
         fall
@@ -910,6 +895,7 @@
 
     }
 
+
     .confetti-piece {
       position: absolute;
 
@@ -926,6 +912,7 @@
         ease-in
         infinite;
     }
+
 
     @keyframes cFall {
 
@@ -1026,8 +1013,7 @@
 
       border-radius: 7px;
 
-      margin:
-        12px 0;
+      margin: 12px 0;
 
       text-align: center;
 
@@ -1433,7 +1419,7 @@
     </div>
 
 
-    <!-- PAGE 11 - HALDI COLOUR SPLASH -->
+    <!-- PAGE 11 - HALDI -->
 
     <div
       class="page-wrapper"
@@ -1651,7 +1637,7 @@
     </div>
 
 
-    <!-- PAGE 17 - HEADLIGHTS REMOVED -->
+    <!-- PAGE 17 -->
 
     <div
       class="page-wrapper"
@@ -2179,8 +2165,7 @@
 
     imageFiles.forEach(src => {
 
-      const img =
-        new Image();
+      const img = new Image();
 
       img.src = src;
 
@@ -2850,9 +2835,7 @@
 
 
       /*
-        PASSWORD IS CASE-SENSITIVE
-
-        Correct:
+        EXACT PASSWORD:
         Trishnaisthebest
 
         Capital T
