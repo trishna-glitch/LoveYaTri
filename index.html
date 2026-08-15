@@ -92,8 +92,6 @@
 
       flex-shrink: 0;
 
-      perspective: 1400px;
-
       touch-action: manipulation;
     }
 
@@ -119,11 +117,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-
-      transform-style: preserve-3d;
-
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
     }
 
 
@@ -133,74 +126,6 @@
       pointer-events: auto;
 
       z-index: 10;
-    }
-
-
-    /* ==================================================
-       FAST SUBTLE PAPER FLIP
-       ================================================== */
-
-    .page-wrapper.flip-next {
-      transform-origin: left center;
-
-      animation:
-        paperFlipNext
-        0.24s
-        ease-out
-        both;
-    }
-
-
-    .page-wrapper.flip-prev {
-      transform-origin: right center;
-
-      animation:
-        paperFlipPrev
-        0.24s
-        ease-out
-        both;
-    }
-
-
-    @keyframes paperFlipNext {
-
-      0% {
-        opacity: 0.7;
-
-        transform:
-          perspective(1400px)
-          rotateY(-10deg);
-      }
-
-      100% {
-        opacity: 1;
-
-        transform:
-          perspective(1400px)
-          rotateY(0deg);
-      }
-
-    }
-
-
-    @keyframes paperFlipPrev {
-
-      0% {
-        opacity: 0.7;
-
-        transform:
-          perspective(1400px)
-          rotateY(10deg);
-      }
-
-      100% {
-        opacity: 1;
-
-        transform:
-          perspective(1400px)
-          rotateY(0deg);
-      }
-
     }
 
 
@@ -1200,16 +1125,6 @@
 
     }
 
-
-    @media (prefers-reduced-motion: reduce) {
-
-      .page-wrapper.flip-next,
-      .page-wrapper.flip-prev {
-        animation: none;
-      }
-
-    }
-
   </style>
 
 </head>
@@ -1641,8 +1556,6 @@
       </div>
 
 
-      <!-- RIGHT ARROW SKIPS PAGE 14 -->
-
       <div
         class="arrow-btn arrow-btn-right"
         onclick="skipSecretParty()"
@@ -1755,7 +1668,7 @@
     </div>
 
 
-    <!-- PAGE 17 - NO HEADLIGHTS -->
+    <!-- PAGE 17 -->
 
     <div
       class="page-wrapper"
@@ -2006,10 +1919,6 @@
 
   <!-- ==================================================
        BOTTOM NAVIGATION
-
-       IMPORTANT:
-       Only Page 5 thumbnail loads initially.
-       The rest use data-src.
        ================================================== -->
 
   <div
@@ -2301,10 +2210,6 @@
 
   <script>
 
-    /* ==================================================
-       VARIABLES
-       ================================================== */
-
     const pages =
       Array.from(
         document.querySelectorAll(
@@ -2378,12 +2283,7 @@
 
 
     /* ==================================================
-       REAL LAZY / PROGRESSIVE IMAGE LOADING
-
-       Page index:
-       0 = image 1
-       1 = image 2
-       etc.
+       LAZY / PROGRESSIVE IMAGE LOADING
        ================================================== */
 
     function loadPageImage(index) {
@@ -2403,10 +2303,6 @@
           .querySelector('.page-img');
 
 
-      /*
-        Load main full-size image.
-      */
-
       if (
         pageImage &&
         !pageImage.getAttribute('src') &&
@@ -2418,12 +2314,6 @@
 
       }
 
-
-      /*
-        Load corresponding thumbnail.
-        Because it uses the SAME file,
-        the browser can reuse its cache.
-      */
 
       const thumbImage =
         document.querySelector(
@@ -2465,12 +2355,6 @@
     }
 
 
-    /* ==================================================
-       BACKGROUND LOADING
-
-       This begins only once user reaches Page 5.
-       ================================================== */
-
     function startProgressiveLoading() {
 
 
@@ -2487,24 +2371,11 @@
         true;
 
 
-      /*
-        FIRST:
-        Pages 6–9.
-
-        These are the pages they are most
-        likely to visit immediately.
-      */
-
       loadBatch(
         5,
         8
       );
 
-
-      /*
-        AFTER 1.3 SECONDS:
-        Pages 10–14.
-      */
 
       setTimeout(
         function() {
@@ -2518,11 +2389,6 @@
         1300
       );
 
-
-      /*
-        AFTER 3.5 SECONDS:
-        Pages 15–20.
-      */
 
       setTimeout(
         function() {
@@ -2543,18 +2409,8 @@
        PAGE NAVIGATION
        ================================================== */
 
-    function goToPage(
-      index,
-      forcedDirection
-    ) {
+    function goToPage(index) {
 
-
-      /*
-        Visual Page 14 =
-        JavaScript index 13.
-
-        Locked until password.
-      */
 
       if (
         index === 13 &&
@@ -2578,104 +2434,26 @@
       }
 
 
-      /*
-        If user jumps ahead before
-        background loading reaches it,
-        begin downloading it immediately.
-
-        IMPORTANT:
-        We DO NOT wait for it.
-      */
-
       loadPageImage(index);
-
-
-      /*
-        Also prepare the next page.
-      */
 
       loadPageImage(
         index + 1
       );
 
 
-      const previousIndex =
-        currentIndex;
-
-
-      const direction =
-        forcedDirection ||
-        (
-          index >= previousIndex
-          ? 'next'
-          : 'prev'
-        );
-
-
-      const oldPage =
-        pages[previousIndex];
-
-
-      const newPage =
-        pages[index];
-
-
-      oldPage.classList.remove(
-        'active',
-        'flip-next',
-        'flip-prev'
-      );
+      pages[currentIndex]
+        .classList
+        .remove('active');
 
 
       currentIndex =
         index;
 
 
-      newPage.classList.remove(
-        'flip-next',
-        'flip-prev'
-      );
+      pages[currentIndex]
+        .classList
+        .add('active');
 
-
-      void newPage.offsetWidth;
-
-
-      if (
-        direction === 'prev'
-      ) {
-
-        newPage.classList.add(
-          'active',
-          'flip-prev'
-        );
-
-      } else {
-
-        newPage.classList.add(
-          'active',
-          'flip-next'
-        );
-
-      }
-
-
-      setTimeout(
-        function() {
-
-          newPage.classList.remove(
-            'flip-next',
-            'flip-prev'
-          );
-
-        },
-        260
-      );
-
-
-      /*
-        Show bottom navigation
-        from Page 5 onwards.
-      */
 
       if (
         currentIndex >= 4
@@ -2700,11 +2478,6 @@
       }
 
 
-      /*
-        Once Page 5 appears,
-        start loading later pages.
-      */
-
       if (
         currentIndex === 4
       ) {
@@ -2725,10 +2498,6 @@
       let next =
         currentIndex + step;
 
-
-      /* ===============================
-         LADKIWALE ROUTE
-         =============================== */
 
       if (
         selectedSide === 'ladkiwale'
@@ -2756,10 +2525,6 @@
       }
 
 
-      /* ===============================
-         SECRET PARTY SKIP ROUTE
-         =============================== */
-
       if (
         partySkipped
         &&
@@ -2786,12 +2551,7 @@
       }
 
 
-      goToPage(
-        next,
-        step < 0
-          ? 'prev'
-          : 'next'
-      );
+      goToPage(next);
 
     }
 
@@ -2889,16 +2649,8 @@
       let targetPage = 1;
 
 
-      /*
-        Pages 1–5 are already loaded.
-
-        So this opening animation
-        does not wait for downloads.
-      */
-
       goToPage(
-        targetPage,
-        'next'
+        targetPage
       );
 
 
@@ -2916,8 +2668,7 @@
 
 
               goToPage(
-                targetPage,
-                'next'
+                targetPage
               );
 
 
@@ -3025,11 +2776,6 @@
               'block';
 
 
-          /*
-            Make sure upcoming pages
-            have started loading.
-          */
-
           loadBatch(
             5,
             8
@@ -3037,8 +2783,7 @@
 
 
           goToPage(
-            5,
-            'next'
+            5
           );
 
 
@@ -3075,8 +2820,7 @@
 
 
           goToPage(
-            5,
-            'next'
+            5
           );
 
 
@@ -3098,8 +2842,7 @@
 
 
         goToPage(
-          7,
-          'next'
+          7
         );
 
 
@@ -3107,8 +2850,7 @@
 
 
         goToPage(
-          6,
-          'next'
+          6
         );
 
 
@@ -3127,8 +2869,7 @@
 
 
         goToPage(
-          5,
-          'prev'
+          5
         );
 
 
@@ -3136,8 +2877,7 @@
 
 
         goToPage(
-          6,
-          'prev'
+          6
         );
 
 
@@ -3154,30 +2894,16 @@
       ) {
 
 
-        /*
-          Secret party was skipped.
-
-          Page 15 → Page 13.
-        */
-
         goToPage(
-          12,
-          'prev'
+          12
         );
 
 
       } else {
 
 
-        /*
-          Secret party was unlocked.
-
-          Page 15 → Page 14.
-        */
-
         goToPage(
-          13,
-          'prev'
+          13
         );
 
 
@@ -3203,8 +2929,7 @@
 
 
         goToPage(
-          13,
-          'next'
+          13
         );
 
 
@@ -3226,17 +2951,13 @@
         true;
 
 
-      /*
-        Visual Page 15 =
-        JavaScript index 14.
-      */
-
-      loadPageImage(14);
+      loadPageImage(
+        14
+      );
 
 
       goToPage(
-        14,
-        'next'
+        14
       );
 
     }
@@ -3338,15 +3059,6 @@
           .trim();
 
 
-      /*
-        EXACT PASSWORD:
-
-        Trishnaisthebest
-
-        Capital T.
-        Rest lowercase.
-      */
-
       if (
         val ===
         'Trishnaisthebest'
@@ -3382,17 +3094,13 @@
         input.value = '';
 
 
-        /*
-          Load secret Page 14
-          immediately when unlocked.
-        */
-
-        loadPageImage(13);
+        loadPageImage(
+          13
+        );
 
 
         goToPage(
-          13,
-          'next'
+          13
         );
 
 
