@@ -15,13 +15,13 @@
       font-family: 'Georgia', serif;      
       overflow: hidden;    }    
 
-    /* Exact 1080 x 1900 ratio scaling for mobile */
+    /* Exact 1080 x 1800 mobile proportion scaling */
     .card-container {      
       position: relative;      
       width: 100vw;      
-      max-width: 405px;      
+      max-width: 410px;      
       height: 100vh;      
-      max-height: 712px; /* Scales perfectly to 1080x1900 proportion */
+      max-height: 730px; 
       background: #fcfbf7;      
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);      
       overflow: hidden;    }    
@@ -32,7 +32,8 @@
       background: #fcfbf7; display: flex; justify-content: center; align-items: center;
     }    
     .page-wrapper.active { opacity: 1; pointer-events: auto; z-index: 10; }    
-    .page-img { width: 100%; height: 100%; object-fit: fill; position: relative; z-index: 1; }    
+    /* Ensures entire 1080x1800 image fits nicely without cropping */
+    .page-img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1; }    
 
     .envelope-click-area {      
       position: absolute; bottom: 25px; left: 12%; width: 76%; height: 220px; z-index: 20;      
@@ -47,7 +48,7 @@
     .click-arrow { position: absolute; bottom: 25px; font-size: 1.2rem; color: #b8860b; z-index: 22; }    
 
     .arrow-btn {      
-      position: absolute; top: 50%; width: 36px; height: 36px; background: rgba(184, 134, 11, 0.9);      
+      position: absolute; top: 46%; width: 36px; height: 36px; background: rgba(184, 134, 11, 0.9);      
       color: #ffffff; border: 1px solid #fff; border-radius: 50%;      
       display: flex; justify-content: center; align-items: center; font-size: 1.1rem;      
       font-weight: bold; cursor: pointer; z-index: 99; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
@@ -56,9 +57,9 @@
     .arrow-btn-right { right: 8px; transform: translateY(-50%); }    
     .arrow-btn.disabled { opacity: 0.2; pointer-events: none; }
 
-    /* iPhone Dock placed cleanly with 20px padding */
+    /* iPhone Dock given 100px clearance from bottom */
     .nav-dock-container {
-      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%) scale(0.82);
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%) scale(0.82);
       transform-origin: bottom center; width: 96%; background: rgba(252, 251, 247, 0.96);
       backdrop-filter: blur(6px); border: 1px solid rgba(184, 134, 11, 0.4);
       border-radius: 10px; padding: 4px 6px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
@@ -88,7 +89,7 @@
     .splash-drop { position: absolute; border-radius: 50%; opacity: 0.8; animation: popSplash 1.5s ease-out forwards; }
     @keyframes popSplash { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
 
-    /* EXACT JEEP HEADLIGHT POSITIONING */
+    /* JEEP HEADLIGHTS */
     .jeep-lights-container {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none;
     }
@@ -102,7 +103,6 @@
     .jeep-right { left: 24.8%; top: 26.5%; }
     @keyframes blink { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
-    /* FIXED ROSE PETALS & CONFETTI CONTAINERS */
     .rose-petals-overlay, .confetti-overlay {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; overflow: hidden;
     }
@@ -170,7 +170,6 @@
     <div class="page-wrapper" id="page15Wrapper"><img src="15.png" class="page-img" alt="15"><div class="arrow-btn arrow-btn-left" onclick="handlePage15Left()">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
     <div class="page-wrapper" id="page16Wrapper"><img src="16.png" class="page-img" alt="16"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
     
-    <!-- PAGE 17: JEEP HEADLIGHTS -->
     <div class="page-wrapper" id="page17Wrapper">      
       <img src="17.png" class="page-img" alt="17">
       <div class="jeep-lights-container active-anim">
@@ -180,7 +179,6 @@
       <div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div>    
     </div>    
 
-    <!-- PAGE 18: ROSE PETALS -->
     <div class="page-wrapper" id="page18Wrapper">      
       <img src="18.png" class="page-img" alt="18">      
       <div class="rose-petals-overlay active-anim">
@@ -193,7 +191,6 @@
 
     <div class="page-wrapper" id="page19Wrapper"><img src="19.png" class="page-img" alt="19"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
     
-    <!-- PAGE 20: CONFETTI -->
     <div class="page-wrapper" id="page20Wrapper">      
       <img src="20.png" class="page-img" alt="20">      
       <div class="confetti-overlay active-anim">
