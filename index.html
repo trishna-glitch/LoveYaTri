@@ -11,6 +11,10 @@
 
   <title>#LoveYaTri Wedding Invitation</title>
 
+  <!-- Prioritise the first screen -->
+  <link rel="preload" as="image" href="1.png" fetchpriority="high">
+  <link rel="preload" as="image" href="2.png">
+
   <style>
 
     * {
@@ -54,6 +58,7 @@
 
     /* =========================
        MAIN INVITATION
+       1080 × 1920 / 9:16
        ========================= */
 
     .card-container {
@@ -92,6 +97,8 @@
       flex-shrink: 0;
 
       touch-action: manipulation;
+
+      perspective: 1400px;
     }
 
 
@@ -107,16 +114,19 @@
       height: 100%;
 
       opacity: 0;
-
       pointer-events: none;
-
-      transition: opacity 0.15s ease-in-out;
 
       background: #fcfbf7;
 
       display: flex;
       justify-content: center;
       align-items: center;
+
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+
+      will-change: transform, opacity;
     }
 
     .page-wrapper.active {
@@ -127,12 +137,111 @@
 
 
     /* =========================
+       SUBTLE PAPER FLIP
+       ========================= */
+
+    .page-wrapper.flip-next {
+      transform-origin: left center;
+
+      animation:
+        paperFlipNext
+        0.42s
+        cubic-bezier(0.22, 0.72, 0.22, 1)
+        both;
+    }
+
+    .page-wrapper.flip-prev {
+      transform-origin: right center;
+
+      animation:
+        paperFlipPrev
+        0.42s
+        cubic-bezier(0.22, 0.72, 0.22, 1)
+        both;
+    }
+
+    @keyframes paperFlipNext {
+
+      0% {
+        opacity: 0.35;
+
+        transform:
+          perspective(1400px)
+          rotateY(-15deg)
+          translateX(2%);
+
+        filter: brightness(0.94);
+      }
+
+      65% {
+        opacity: 1;
+
+        transform:
+          perspective(1400px)
+          rotateY(2deg)
+          translateX(0);
+
+        filter: brightness(1);
+      }
+
+      100% {
+        opacity: 1;
+
+        transform:
+          perspective(1400px)
+          rotateY(0deg)
+          translateX(0);
+
+        filter: brightness(1);
+      }
+
+    }
+
+
+    @keyframes paperFlipPrev {
+
+      0% {
+        opacity: 0.35;
+
+        transform:
+          perspective(1400px)
+          rotateY(15deg)
+          translateX(-2%);
+
+        filter: brightness(0.94);
+      }
+
+      65% {
+        opacity: 1;
+
+        transform:
+          perspective(1400px)
+          rotateY(-2deg)
+          translateX(0);
+
+        filter: brightness(1);
+      }
+
+      100% {
+        opacity: 1;
+
+        transform:
+          perspective(1400px)
+          rotateY(0deg)
+          translateX(0);
+
+        filter: brightness(1);
+      }
+
+    }
+
+
+    /* =========================
        IMAGES
        ========================= */
 
     .page-img {
       position: absolute;
-
       inset: 0;
 
       width: 100%;
@@ -229,10 +338,6 @@
       z-index: 52;
 
       pointer-events: none;
-
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
     }
 
     .click-arrow {
@@ -247,9 +352,6 @@
       z-index: 52;
 
       pointer-events: none;
-
-      user-select: none;
-      -webkit-user-select: none;
     }
 
 
@@ -265,7 +367,13 @@
       width: clamp(30px, 9vw, 38px);
       height: clamp(30px, 9vw, 38px);
 
-      background: rgba(184, 134, 11, 0.9);
+      background:
+        rgba(
+          184,
+          134,
+          11,
+          0.9
+        );
 
       color: #ffffff;
 
@@ -314,7 +422,8 @@
     .arrow-btn-right {
       right: 8px;
 
-      transform: translateY(-50%);
+      transform:
+        translateY(-50%);
     }
 
     .arrow-btn.disabled {
@@ -402,6 +511,8 @@
       scrollbar-width: none;
 
       touch-action: pan-x;
+
+      overscroll-behavior-x: contain;
     }
 
     .nav-dock-scroll::-webkit-scrollbar {
@@ -418,12 +529,7 @@
 
       border-right:
         1px dashed
-        rgba(
-          184,
-          134,
-          11,
-          0.3
-        );
+        rgba(184, 134, 11, 0.3);
 
       padding-right: 6px;
     }
@@ -435,6 +541,7 @@
 
     .nav-group-title {
       font-size: 0.6rem;
+
       font-weight: bold;
 
       color: #721c24;
@@ -442,9 +549,6 @@
       text-transform: uppercase;
 
       text-align: center;
-
-      user-select: none;
-      -webkit-user-select: none;
     }
 
     .nav-thumbs-row {
@@ -471,10 +575,6 @@
       touch-action: manipulation;
 
       -webkit-tap-highlight-color: transparent;
-
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
     }
 
     .nav-thumb img {
@@ -554,9 +654,9 @@
     }
 
 
-    /* ========================================
+    /* =========================
        HALDI COLOUR SPLASH
-       ======================================== */
+       ========================= */
 
     .holi-splash-overlay {
       position: absolute;
@@ -572,7 +672,6 @@
 
       overflow: hidden;
     }
-
 
     .holi-splash {
       position: absolute;
@@ -674,12 +773,7 @@
       --rotation: -18deg;
 
       --splash-color:
-        rgba(
-          255,
-          193,
-          7,
-          0.82
-        );
+        rgba(255, 193, 7, 0.82);
     }
 
 
@@ -690,12 +784,7 @@
       --rotation: 19deg;
 
       --splash-color:
-        rgba(
-          236,
-          37,
-          112,
-          0.76
-        );
+        rgba(236, 37, 112, 0.76);
     }
 
 
@@ -708,12 +797,7 @@
       --rotation: 8deg;
 
       --splash-color:
-        rgba(
-          255,
-          111,
-          0,
-          0.72
-        );
+        rgba(255, 111, 0, 0.72);
     }
 
 
@@ -726,18 +810,13 @@
       --rotation: -10deg;
 
       --splash-color:
-        rgba(
-          54,
-          180,
-          87,
-          0.58
-        );
+        rgba(54, 180, 87, 0.58);
     }
 
 
     /*
-      HALDI SPLASH NOW DISAPPEARS
-      COMPLETELY AFTER ABOUT 2 SECONDS
+       Appears, splashes, then disappears.
+       Total max time ≈ 2 seconds.
     */
 
     #page11Wrapper.active
@@ -750,7 +829,6 @@
         both;
     }
 
-
     #page11Wrapper.active
     .holi-splash-two {
       animation:
@@ -761,7 +839,6 @@
         both;
     }
 
-
     #page11Wrapper.active
     .holi-splash-three {
       animation:
@@ -771,7 +848,6 @@
         0.10s
         both;
     }
-
 
     #page11Wrapper.active
     .holi-splash-four {
@@ -794,7 +870,6 @@
           rotate(var(--rotation));
       }
 
-
       20% {
         opacity: 0.95;
 
@@ -802,7 +877,6 @@
           scale(1.12)
           rotate(var(--rotation));
       }
-
 
       55% {
         opacity: 0.85;
@@ -812,11 +886,9 @@
           rotate(var(--rotation));
       }
 
-
       75% {
         opacity: 0.55;
       }
-
 
       100% {
         opacity: 0;
@@ -866,7 +938,8 @@
 
       background: #ff4d6d;
 
-      border-radius: 50% 0 50% 50%;
+      border-radius:
+        50% 0 50% 50%;
 
       animation:
         fall
@@ -913,7 +986,6 @@
         infinite;
     }
 
-
     @keyframes cFall {
 
       0% {
@@ -948,12 +1020,7 @@
       height: 100%;
 
       background:
-        rgba(
-          0,
-          0,
-          0,
-          0.72
-        );
+        rgba(0, 0, 0, 0.72);
 
       z-index: 1000;
 
@@ -973,16 +1040,13 @@
       background: #fcfbf7;
 
       width: 88%;
-
       max-width: 330px;
 
       padding: 22px;
 
       border-radius: 14px;
 
-      border:
-        2px solid
-        #b8860b;
+      border: 2px solid #b8860b;
 
       text-align: center;
 
@@ -1007,9 +1071,7 @@
 
       padding: 11px;
 
-      border:
-        1px solid
-        #cca043;
+      border: 1px solid #cca043;
 
       border-radius: 7px;
 
@@ -1037,7 +1099,6 @@
         rgba(184, 134, 11, 0.15);
     }
 
-
     .password-actions {
       display: flex;
 
@@ -1047,7 +1108,6 @@
 
       margin-top: 2px;
     }
-
 
     .pass-btn {
       padding: 10px 12px;
@@ -1069,17 +1129,13 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-
     .pass-btn-back {
       background: #eee9df;
 
       color: #5a4b3c;
 
-      border:
-        1px solid
-        #d2c7b8;
+      border: 1px solid #d2c7b8;
     }
-
 
     .pass-btn-unlock {
       background: #b8860b;
@@ -1112,8 +1168,7 @@
               - 62px
               - env(safe-area-inset-top)
               - env(safe-area-inset-bottom)
-            )
-            * 9 / 16
+            ) * 9 / 16
           )
         );
 
@@ -1133,6 +1188,16 @@
 
       .nav-group-title {
         font-size: 0.52rem;
+      }
+
+    }
+
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .page-wrapper.flip-next,
+      .page-wrapper.flip-prev {
+        animation: none;
       }
 
     }
@@ -1163,6 +1228,8 @@
         class="page-img"
         alt="Envelope"
         draggable="false"
+        decoding="async"
+        fetchpriority="high"
       >
 
       <div
@@ -1198,6 +1265,7 @@
         class="page-img"
         alt="Slide 2"
         draggable="false"
+        decoding="async"
       >
 
     </div>
@@ -1215,6 +1283,7 @@
         class="page-img"
         alt="Slide 3"
         draggable="false"
+        decoding="async"
       >
 
     </div>
@@ -1232,6 +1301,7 @@
         class="page-img"
         alt="Slide 4"
         draggable="false"
+        decoding="async"
       >
 
     </div>
@@ -1249,6 +1319,7 @@
         class="page-img"
         alt="Selection"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1272,10 +1343,11 @@
     >
 
       <img
-        src="6.png"
+        data-src="6.png"
         class="page-img"
         alt="6"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1303,10 +1375,11 @@
     >
 
       <img
-        src="7.png"
+        data-src="7.png"
         class="page-img"
         alt="7"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1334,10 +1407,11 @@
     >
 
       <img
-        src="8.png"
+        data-src="8.png"
         class="page-img"
         alt="8"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1365,10 +1439,11 @@
     >
 
       <img
-        src="9.png"
+        data-src="9.png"
         class="page-img"
         alt="9"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1396,10 +1471,11 @@
     >
 
       <img
-        src="10.png"
+        data-src="10.png"
         class="page-img"
         alt="10"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1427,10 +1503,11 @@
     >
 
       <img
-        src="11.png"
+        data-src="11.png"
         class="page-img"
         alt="11"
         draggable="false"
+        decoding="async"
       >
 
 
@@ -1480,10 +1557,11 @@
     >
 
       <img
-        src="12.png"
+        data-src="12.png"
         class="page-img"
         alt="12"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1511,10 +1589,11 @@
     >
 
       <img
-        src="13.png"
+        data-src="13.png"
         class="page-img"
         alt="13"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1527,6 +1606,7 @@
         id="skipPartyBtn"
       ></div>
 
+
       <div
         class="arrow-btn arrow-btn-left"
         onclick="changePage(-1)"
@@ -1534,9 +1614,16 @@
         &#10132;
       </div>
 
+
+      <!--
+        IMPORTANT:
+        Page 13 right arrow now SKIPS Page 14
+        and goes straight to Page 15.
+      -->
+
       <div
         class="arrow-btn arrow-btn-right"
-        onclick="openPasswordModal()"
+        onclick="skipSecretParty()"
       >
         &#10132;
       </div>
@@ -1544,7 +1631,7 @@
     </div>
 
 
-    <!-- PAGE 14 -->
+    <!-- PAGE 14 - SECRET PARTY -->
 
     <div
       class="page-wrapper"
@@ -1552,10 +1639,11 @@
     >
 
       <img
-        src="14.png"
+        data-src="14.png"
         class="page-img"
         alt="14"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1583,10 +1671,11 @@
     >
 
       <img
-        src="15.png"
+        data-src="15.png"
         class="page-img"
         alt="15"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1614,10 +1703,11 @@
     >
 
       <img
-        src="16.png"
+        data-src="16.png"
         class="page-img"
         alt="16"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1637,7 +1727,7 @@
     </div>
 
 
-    <!-- PAGE 17 -->
+    <!-- PAGE 17 - NO HEADLIGHTS -->
 
     <div
       class="page-wrapper"
@@ -1645,10 +1735,11 @@
     >
 
       <img
-        src="17.png"
+        data-src="17.png"
         class="page-img"
         alt="17"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1676,10 +1767,11 @@
     >
 
       <img
-        src="18.png"
+        data-src="18.png"
         class="page-img"
         alt="18"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1738,10 +1830,11 @@
     >
 
       <img
-        src="19.png"
+        data-src="19.png"
         class="page-img"
         alt="19"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1769,10 +1862,11 @@
     >
 
       <img
-        src="20.png"
+        data-src="20.png"
         class="page-img"
         alt="20"
         draggable="false"
+        decoding="async"
       >
 
       <div
@@ -1904,61 +1998,71 @@
 
           <div
             class="nav-thumb"
+            data-page-index="4"
             onclick="goToPage(4)"
           >
             <img
               src="5.png"
               alt="Page 5"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="5"
             onclick="goToPage(5)"
           >
             <img
-              src="6.png"
+              data-src="6.png"
               alt="Page 6"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="6"
             onclick="goToPage(6)"
             id="thumb7"
           >
             <img
-              src="7.png"
+              data-src="7.png"
               alt="Page 7"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="7"
             onclick="goToPage(7)"
           >
             <img
-              src="8.png"
+              data-src="8.png"
               alt="Page 8"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="8"
             onclick="goToPage(8)"
           >
             <img
-              src="9.png"
+              data-src="9.png"
               alt="Page 9"
               draggable="false"
+              decoding="async"
             >
           </div>
 
@@ -1979,61 +2083,71 @@
 
           <div
             class="nav-thumb"
+            data-page-index="9"
             onclick="goToPage(9)"
           >
             <img
-              src="10.png"
+              data-src="10.png"
               alt="Page 10"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="10"
             onclick="goToPage(10)"
           >
             <img
-              src="11.png"
+              data-src="11.png"
               alt="Page 11"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="11"
             onclick="goToPage(11)"
           >
             <img
-              src="12.png"
+              data-src="12.png"
               alt="Page 12"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="12"
             onclick="goToPage(12)"
           >
             <img
-              src="13.png"
+              data-src="13.png"
               alt="Page 13"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb locked-thumb"
+            data-page-index="13"
             onclick="goToPage(13)"
             id="thumb14"
           >
             <img
-              src="14.png"
+              data-src="14.png"
               alt="Page 14"
               draggable="false"
+              decoding="async"
             >
           </div>
 
@@ -2054,72 +2168,84 @@
 
           <div
             class="nav-thumb"
+            data-page-index="14"
             onclick="goToPage(14)"
           >
             <img
-              src="15.png"
+              data-src="15.png"
               alt="Page 15"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="15"
             onclick="goToPage(15)"
           >
             <img
-              src="16.png"
+              data-src="16.png"
               alt="Page 16"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="16"
             onclick="goToPage(16)"
           >
             <img
-              src="17.png"
+              data-src="17.png"
               alt="Page 17"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="17"
             onclick="goToPage(17)"
           >
             <img
-              src="18.png"
+              data-src="18.png"
               alt="Page 18"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="18"
             onclick="goToPage(18)"
           >
             <img
-              src="19.png"
+              data-src="19.png"
               alt="Page 19"
               draggable="false"
+              decoding="async"
             >
           </div>
 
 
           <div
             class="nav-thumb"
+            data-page-index="19"
             onclick="goToPage(19)"
           >
             <img
-              src="20.png"
+              data-src="20.png"
               alt="Page 20"
               draggable="false"
+              decoding="async"
             >
           </div>
 
@@ -2136,49 +2262,22 @@
   <script>
 
     /* =========================
-       PRELOAD IMAGES
-       ========================= */
-
-    const imageFiles = [
-      '1.png',
-      '2.png',
-      '3.png',
-      '4.png',
-      '5.png',
-      '6.png',
-      '7.png',
-      '8.png',
-      '9.png',
-      '10.png',
-      '11.png',
-      '12.png',
-      '13.png',
-      '14.png',
-      '15.png',
-      '16.png',
-      '17.png',
-      '18.png',
-      '19.png',
-      '20.png'
-    ];
-
-
-    imageFiles.forEach(src => {
-
-      const img = new Image();
-
-      img.src = src;
-
-    });
-
-
-    /* =========================
        VARIABLES
        ========================= */
 
     const pages =
-      document.querySelectorAll(
-        '.page-wrapper'
+      Array.from(
+        document.querySelectorAll(
+          '.page-wrapper'
+        )
+      );
+
+
+    const pageImages =
+      Array.from(
+        document.querySelectorAll(
+          '.page-img'
+        )
       );
 
 
@@ -2194,6 +2293,9 @@
       false;
 
     let invitationOpening =
+      false;
+
+    let backgroundLoadingStarted =
       false;
 
 
@@ -2249,14 +2351,285 @@
 
 
     /* =========================
-       PAGE NAVIGATION
+       FASTER STAGED IMAGE LOADING
        ========================= */
 
-    function goToPage(index) {
+    function loadThumbnailForPage(
+      index
+    ) {
+
+      const thumb =
+        document.querySelector(
+          '.nav-thumb[data-page-index="' +
+          index +
+          '"] img'
+        );
 
 
       if (
-        index === 13 &&
+        !thumb
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        !thumb.hasAttribute('src')
+        &&
+        thumb.dataset.src
+      ) {
+
+        thumb.src =
+          thumb.dataset.src;
+
+      }
+
+    }
+
+
+    function ensurePageImage(
+      index
+    ) {
+
+
+      return new Promise(
+        function(resolve) {
+
+
+          const img =
+            pageImages[index];
+
+
+          if (
+            !img
+          ) {
+
+            resolve();
+
+            return;
+
+          }
+
+
+          if (
+            !img.hasAttribute('src')
+            &&
+            img.dataset.src
+          ) {
+
+            img.src =
+              img.dataset.src;
+
+          }
+
+
+          loadThumbnailForPage(
+            index
+          );
+
+
+          if (
+            img.complete
+            &&
+            img.naturalWidth > 0
+          ) {
+
+
+            if (
+              img.decode
+            ) {
+
+              img
+                .decode()
+                .catch(
+                  function() {}
+                )
+                .finally(
+                  resolve
+                );
+
+            } else {
+
+              resolve();
+
+            }
+
+
+            return;
+
+          }
+
+
+          const finish =
+            function() {
+
+              resolve();
+
+            };
+
+
+          img.addEventListener(
+            'load',
+            finish,
+            {
+              once: true
+            }
+          );
+
+
+          img.addEventListener(
+            'error',
+            finish,
+            {
+              once: true
+            }
+          );
+
+
+        }
+      );
+
+    }
+
+
+    function smallPause(
+      milliseconds
+    ) {
+
+      return new Promise(
+        function(resolve) {
+
+          setTimeout(
+            resolve,
+            milliseconds
+          );
+
+        }
+      );
+
+    }
+
+
+    async function startBackgroundLoading() {
+
+
+      if (
+        backgroundLoadingStarted
+      ) {
+
+        return;
+
+      }
+
+
+      backgroundLoadingStarted =
+        true;
+
+
+      /*
+        Pages 1–5 load immediately.
+
+        Pages 6–20 load one-by-one AFTER
+        the first screens are ready.
+
+        This prevents 20 large PNGs from
+        fighting each other on initial load.
+      */
+
+
+      for (
+        let i = 5;
+        i < pageImages.length;
+        i++
+      ) {
+
+
+        await ensurePageImage(
+          i
+        );
+
+
+        await smallPause(
+          70
+        );
+
+
+      }
+
+    }
+
+
+    function preloadNearbyPages(
+      index
+    ) {
+
+
+      if (
+        index + 1 <
+        pageImages.length
+      ) {
+
+        ensurePageImage(
+          index + 1
+        );
+
+      }
+
+
+      if (
+        index + 2 <
+        pageImages.length
+      ) {
+
+        ensurePageImage(
+          index + 2
+        );
+
+      }
+
+    }
+
+
+    /*
+      Only start loading the rest AFTER
+      the initial page resources finish.
+    */
+
+    window.addEventListener(
+      'load',
+      function() {
+
+        setTimeout(
+          startBackgroundLoading,
+          300
+        );
+
+      }
+    );
+
+
+    /* =========================
+       PAGE NAVIGATION
+       ========================= */
+
+    async function goToPage(
+      index,
+      forcedDirection
+    ) {
+
+
+      /*
+        Page 14 is the secret page.
+
+        JavaScript counts from zero,
+        so visual Page 14 = index 13.
+      */
+
+      if (
+        index === 13
+        &&
         !partyUnlocked
       ) {
 
@@ -2268,7 +2641,8 @@
 
 
       if (
-        index < 0 ||
+        index < 0
+        ||
         index >= pages.length
       ) {
 
@@ -2277,17 +2651,117 @@
       }
 
 
-      pages[currentIndex]
+      /*
+        If the target PNG has not loaded,
+        load it BEFORE removing the page
+        currently visible.
+      */
+
+      await ensurePageImage(
+        index
+      );
+
+
+      const previousIndex =
+        currentIndex;
+
+
+      let direction =
+        forcedDirection;
+
+
+      if (
+        !direction
+      ) {
+
+        direction =
+          index >= previousIndex
+          ? 'next'
+          : 'prev';
+
+      }
+
+
+      const oldPage =
+        pages[previousIndex];
+
+
+      const newPage =
+        pages[index];
+
+
+      oldPage
         .classList
-        .remove('active');
+        .remove(
+          'active',
+          'flip-next',
+          'flip-prev'
+        );
 
 
-      currentIndex = index;
+      currentIndex =
+        index;
 
 
-      pages[currentIndex]
+      newPage
         .classList
-        .add('active');
+        .remove(
+          'flip-next',
+          'flip-prev'
+        );
+
+
+      /*
+        Force browser reflow so the
+        flip animation restarts even
+        when revisiting the same page.
+      */
+
+      void newPage.offsetWidth;
+
+
+      newPage
+        .classList
+        .add(
+          'active'
+        );
+
+
+      if (
+        direction ===
+        'prev'
+      ) {
+
+        newPage
+          .classList
+          .add(
+            'flip-prev'
+          );
+
+      } else {
+
+        newPage
+          .classList
+          .add(
+            'flip-next'
+          );
+
+      }
+
+
+      setTimeout(
+        function() {
+
+          newPage
+            .classList
+            .remove(
+              'flip-next',
+              'flip-prev'
+            );
+
+        },
+        450
+      );
 
 
       if (
@@ -2315,15 +2789,26 @@
 
       updateThumbnails();
 
+
+      preloadNearbyPages(
+        currentIndex
+      );
+
     }
 
 
-    function changePage(step) {
+    async function changePage(
+      step
+    ) {
 
 
       let next =
         currentIndex + step;
 
+
+      /*
+        LADKIWALE ROUTE
+      */
 
       if (
 
@@ -2365,6 +2850,10 @@
       }
 
 
+      /*
+        SECRET PARTY SKIP ROUTE
+      */
+
       if (
 
         partySkipped
@@ -2403,7 +2892,12 @@
       }
 
 
-      goToPage(next);
+      await goToPage(
+        next,
+        step < 0
+          ? 'prev'
+          : 'next'
+      );
 
     }
 
@@ -2422,11 +2916,17 @@
 
 
       thumbs.forEach(
-        (thumb, i) => {
+        function(thumb) {
+
+
+          const index =
+            Number(
+              thumb.dataset.pageIndex
+            );
 
 
           if (
-            i + 4 ===
+            index ===
             currentIndex
           ) {
 
@@ -2438,11 +2938,14 @@
 
             thumb.scrollIntoView({
 
-              behavior: 'smooth',
+              behavior:
+                'smooth',
 
-              block: 'nearest',
+              block:
+                'nearest',
 
-              inline: 'center'
+              inline:
+                'center'
 
             });
 
@@ -2456,6 +2959,7 @@
 
 
           }
+
 
         }
       );
@@ -2473,7 +2977,7 @@
       );
 
 
-    function openInvitation() {
+    async function openInvitation() {
 
 
       if (
@@ -2489,61 +2993,47 @@
         true;
 
 
-      let step = 0;
+      /*
+        Automatically flip:
+        Page 1 → 2 → 3 → 4 → 5
+      */
+
+      for (
+        let index = 1;
+        index <= 4;
+        index++
+      ) {
 
 
-      const interval =
-        setInterval(
-          function() {
+        await goToPage(
+          index,
+          'next'
+        );
 
 
-            step++;
-
-
-            if (
-              step <= 4
-            ) {
-
-
-              pages[
-                step - 1
-              ]
-                .classList
-                .remove(
-                  'active'
-                );
-
-
-              pages[
-                step
-              ]
-                .classList
-                .add(
-                  'active'
-                );
-
-
-            } else {
-
-
-              clearInterval(
-                interval
-              );
-
-
-              goToPage(4);
-
-
-              invitationOpening =
-                false;
-
-
-            }
-
-
-          },
+        await smallPause(
           350
         );
+
+
+      }
+
+
+      invitationOpening =
+        false;
+
+
+      /*
+        Once invitation is open,
+        make sure the next Day 1
+        pages are given priority.
+      */
+
+      ensurePageImage(5);
+
+      ensurePageImage(6);
+
+      ensurePageImage(7);
 
     }
 
@@ -2628,7 +3118,10 @@
               'block';
 
 
-          goToPage(5);
+          goToPage(
+            5,
+            'next'
+          );
 
 
         }
@@ -2657,7 +3150,10 @@
               'none';
 
 
-          goToPage(5);
+          goToPage(
+            5,
+            'next'
+          );
 
 
         }
@@ -2665,7 +3161,7 @@
 
 
     /* =========================
-       SPECIAL PAGE ROUTES
+       SPECIAL ROUTES
        ========================= */
 
     function handlePage6Right() {
@@ -2676,11 +3172,17 @@
         'ladkiwale'
       ) {
 
-        goToPage(7);
+        goToPage(
+          7,
+          'next'
+        );
 
       } else {
 
-        goToPage(6);
+        goToPage(
+          6,
+          'next'
+        );
 
       }
 
@@ -2695,11 +3197,17 @@
         'ladkiwale'
       ) {
 
-        goToPage(5);
+        goToPage(
+          5,
+          'prev'
+        );
 
       } else {
 
-        goToPage(6);
+        goToPage(
+          6,
+          'prev'
+        );
 
       }
 
@@ -2709,15 +3217,29 @@
     function handlePage15Left() {
 
 
+      /*
+        If they skipped the secret page,
+        Page 15 returns to Page 13.
+
+        If they unlocked/viewed it,
+        Page 15 returns to Page 14.
+      */
+
       if (
         partySkipped
       ) {
 
-        goToPage(12);
+        goToPage(
+          12,
+          'prev'
+        );
 
       } else {
 
-        goToPage(13);
+        goToPage(
+          13,
+          'prev'
+        );
 
       }
 
@@ -2728,13 +3250,64 @@
        SECRET PARTY
        ========================= */
 
+    function viewSecretParty() {
+
+
+      /*
+        If already unlocked,
+        don't ask for password again.
+      */
+
+      if (
+        partyUnlocked
+      ) {
+
+        partySkipped =
+          false;
+
+
+        goToPage(
+          13,
+          'next'
+        );
+
+
+        return;
+
+      }
+
+
+      openPasswordModal();
+
+    }
+
+
+    function skipSecretParty() {
+
+
+      partySkipped =
+        true;
+
+
+      /*
+        Visual Page 15 = JS index 14.
+      */
+
+      goToPage(
+        14,
+        'next'
+      );
+
+    }
+
+
     document
       .getElementById(
         'viewPartyBtn'
       )
       .addEventListener(
         'click',
-        openPasswordModal
+        viewSecretParty
       );
 
 
@@ -2744,17 +3317,7 @@
       )
       .addEventListener(
         'click',
-        function() {
-
-
-          partySkipped =
-            true;
-
-
-          goToPage(14);
-
-
-        }
+        skipSecretParty
       );
 
 
@@ -2835,11 +3398,12 @@
 
 
       /*
-        EXACT PASSWORD:
+        EXACT CASE-SENSITIVE PASSWORD:
+
         Trishnaisthebest
 
         Capital T
-        Everything else lowercase
+        Everything else lowercase.
       */
 
       if (
@@ -2877,7 +3441,14 @@
         input.value = '';
 
 
-        goToPage(13);
+        /*
+          Open visual Page 14.
+        */
+
+        goToPage(
+          13,
+          'next'
+        );
 
 
       } else {
@@ -2925,7 +3496,6 @@
 
         }
       );
-
 
   </script>
 
