@@ -1,358 +1,1803 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
-  <title>#LoveYaTri Wedding Invitation</title>  
-  <style>    
-    * { box-sizing: border-box; margin: 0; padding: 0; }    
-    body {      
-      background-color: #0b0b0b;      
-      display: flex;      
-      justify-content: center;      
-      align-items: center;      
-      min-height: 100svh; /* Uses stable viewport height to prevent browser address bar cutting */
-      width: 100vw;      
-      font-family: 'Georgia', serif;      
-      overflow: hidden;      
-      position: fixed;    
-    }    
+<head>
+  <meta charset="UTF-8">
 
-    /* STRICT 1080x1800 PROPORTIONAL LOCK */
-    .card-container {      
-      position: relative;      
-      width: 100vw;      
-      max-width: 405px;      
-      height: 100svh;      
-      max-height: 715px; /* Perfect mathematical fit for 1080x1800 proportions */
-      aspect-ratio: 1080 / 1800;
-      background: #fcfbf7;      
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);      
-      overflow: hidden;    }    
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
 
-    .page-wrapper {      
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;      
-      opacity: 0; pointer-events: none; transition: opacity 0.15s ease-in-out;      
-      background: #fcfbf7; display: flex; justify-content: center; align-items: center;
-    }    
-    .page-wrapper.active { opacity: 1; pointer-events: auto; z-index: 10; }    
-    
-    /* Forces full image to remain visible inside the container without edge-cutting */
-    .page-img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: contain; 
-      position: absolute; 
-      top: 0;
-      left: 0;
-      z-index: 1; 
-    }    
+  <title>#LoveYaTri Wedding Invitation</title>
 
-    .envelope-click-area {      
-      position: absolute; bottom: 8%; left: 12%; width: 76%; height: 28%; z-index: 20;      
-      cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-    }    
-    .click-badge {      
-      position: absolute; bottom: 25%; background: linear-gradient(135deg, #b8860b, #d4af37);      
-      color: #ffffff; padding: 8px 18px; border-radius: 20px; font-size: 0.82rem; font-weight: bold;      
-      letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);      
-      border: 1px solid rgba(255, 255, 255, 0.6); z-index: 22; 
-    }    
-    .click-arrow { position: absolute; bottom: 10%; font-size: 1.2rem; color: #b8860b; z-index: 22; }    
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    .arrow-btn {      
-      position: absolute; top: 46%; width: 36px; height: 36px; background: rgba(184, 134, 11, 0.9);      
-      color: #ffffff; border: 1px solid #fff; border-radius: 50%;      
-      display: flex; justify-content: center; align-items: center; font-size: 1.1rem;      
-      font-weight: bold; cursor: pointer; z-index: 99; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }    
-    .arrow-btn-left { left: 8px; transform: translateY(-50%) rotate(180deg); }    
-    .arrow-btn-right { right: 8px; transform: translateY(-50%); }    
-    .arrow-btn.disabled { opacity: 0.2; pointer-events: none; }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0b0b0b;
+    }
 
-    /* iPhone Dock safely elevated above bottom frame edges */
+    body {
+      font-family: 'Georgia', serif;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      min-height: 100vh;
+      min-height: 100dvh;
+
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /*
+      Main invitation artwork.
+      Your actual images are 1080 × 1920 = 9:16.
+
+      We reserve approximately 78px at the bottom for the navigation dock
+      so the dock never covers the artwork.
+    */
+    .card-container {
+      position: relative;
+
+      width: min(
+        100vw,
+        calc(
+          (
+            100dvh
+            - 78px
+            - env(safe-area-inset-top)
+            - env(safe-area-inset-bottom)
+          ) * 9 / 16
+        )
+      );
+
+      aspect-ratio: 9 / 16;
+
+      height: auto;
+
+      max-height: calc(
+        100dvh
+        - 78px
+        - env(safe-area-inset-top)
+        - env(safe-area-inset-bottom)
+      );
+
+      background: #fcfbf7;
+
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);
+
+      overflow: hidden;
+
+      flex-shrink: 0;
+    }
+
+    .page-wrapper {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      opacity: 0;
+      pointer-events: none;
+
+      transition: opacity 0.15s ease-in-out;
+
+      background: #fcfbf7;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .page-wrapper.active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    /*
+      Full 1080×1920 artwork always stays visible.
+      No cropping.
+      No stretching.
+    */
+    .page-img {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+      object-position: center;
+
+      display: block;
+
+      z-index: 1;
+    }
+
+    .envelope-click-area {
+      position: absolute;
+
+      bottom: 8%;
+      left: 12%;
+
+      width: 76%;
+      height: 28%;
+
+      z-index: 20;
+
+      cursor: pointer;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .click-badge {
+      position: absolute;
+      bottom: 25%;
+
+      background: linear-gradient(135deg, #b8860b, #d4af37);
+
+      color: #ffffff;
+
+      padding: 8px 18px;
+
+      border-radius: 20px;
+
+      font-size: 0.82rem;
+      font-weight: bold;
+
+      letter-spacing: 1px;
+      text-transform: uppercase;
+
+      box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);
+
+      border: 1px solid rgba(255, 255, 255, 0.6);
+
+      z-index: 22;
+    }
+
+    .click-arrow {
+      position: absolute;
+
+      bottom: 10%;
+
+      font-size: 1.2rem;
+
+      color: #b8860b;
+
+      z-index: 22;
+    }
+
+    .arrow-btn {
+      position: absolute;
+
+      top: 46%;
+
+      width: 36px;
+      height: 36px;
+
+      background: rgba(184, 134, 11, 0.9);
+
+      color: #ffffff;
+
+      border: 1px solid #fff;
+
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 1.1rem;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      z-index: 99;
+
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .arrow-btn-left {
+      left: 8px;
+
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .arrow-btn-right {
+      right: 8px;
+
+      transform: translateY(-50%);
+    }
+
+    .arrow-btn.disabled {
+      opacity: 0.2;
+
+      pointer-events: none;
+    }
+
+    /*
+      Navigation dock is fixed to the browser viewport,
+      NOT inside the invitation artwork.
+    */
     .nav-dock-container {
-      position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%) scale(0.82);
-      transform-origin: bottom center; width: 96%; background: rgba(252, 251, 247, 0.96);
-      backdrop-filter: blur(6px); border: 1px solid rgba(184, 134, 11, 0.4);
-      border-radius: 10px; padding: 4px 6px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-      z-index: 500; display: none;
+      position: fixed;
+
+      left: 50%;
+
+      bottom: max(
+        8px,
+        env(safe-area-inset-bottom)
+      );
+
+      transform: translateX(-50%);
+
+      width: min(96vw, 405px);
+
+      background: rgba(252, 251, 247, 0.96);
+
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+
+      border: 1px solid rgba(184, 134, 11, 0.4);
+
+      border-radius: 10px;
+
+      padding: 4px 6px;
+
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+      z-index: 500;
+
+      display: none;
     }
-    .nav-dock-container.active { display: block; }
-    .nav-dock-scroll { display: flex; gap: 8px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 2px; }
-    .nav-group { display: flex; flex-direction: column; gap: 3px; flex: 0 0 auto; border-right: 1px dashed rgba(184, 134, 11, 0.3); padding-right: 6px; }
-    .nav-group:last-child { border-right: none; padding-right: 0; }
-    .nav-group-title { font-size: 0.6rem; font-weight: bold; color: #721c24; text-transform: uppercase; text-align: center; }
-    .nav-thumbs-row { display: flex; gap: 3px; }
-    .nav-thumb { width: 26px; height: 36px; border-radius: 3px; overflow: hidden; border: 1.5px solid transparent; cursor: pointer; background: #eee; flex: 0 0 auto; }
-    .nav-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .nav-thumb.active-thumb { border-color: #b8860b; box-shadow: 0 0 5px rgba(184, 134, 11, 0.8); }
-    .nav-thumb.locked-thumb { opacity: 0.4; filter: grayscale(1); }
 
-    .stamp-hotspot, .party-hotspot { position: absolute; cursor: pointer; border: 2px solid transparent; border-radius: 8px; z-index: 30; }    
-    .stamp-hotspot { width: 38%; height: 42%; top: 26%; }    
-    .stamp-ladkewale { left: 9%; }    .stamp-ladkiwale { right: 9%; }    
-    .party-hotspot { top: 26%; height: 42%; width: 38%; }    
-    .party-hotspot-view { left: 9%; }    .party-hotspot-skip { right: 9%; }    
-
-    .color-splash-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; overflow: hidden; }
-    .color-splash-overlay.active-anim { display: block; }
-    .splash-drop { position: absolute; border-radius: 50%; opacity: 0.8; animation: popSplash 1.5s ease-out forwards; }
-    @keyframes popSplash { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
-
-    .jeep-lights-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; }
-    .jeep-lights-container.active-anim { display: block; }
-    .jeep-light { 
-      position: absolute; width: 2.2%; height: 1.3%; background: #fff; border-radius: 50%; 
-      box-shadow: 0 0 10px 5px #ffd700, 0 0 18px 8px rgba(255,255,255,0.9); 
-      animation: blink 0.8s infinite alternate; 
+    .nav-dock-container.active {
+      display: block;
     }
-    .jeep-left { left: 10.2%; top: 21.5%; } 
-    .jeep-right { left: 26.8%; top: 21.5%; }
-    @keyframes blink { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
-    .rose-petals-overlay, .confetti-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; overflow: hidden; }
-    .rose-petals-overlay.active-anim, .confetti-overlay.active-anim { display: block; }
-    
-    .red-petal { position: absolute; top: -20px; width: 12px; height: 14px; background: #ff4d6d; border-radius: 50% 0 50% 50%; animation: fall 3s linear infinite; }
-    @keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(750px) rotate(360deg); opacity: 0; } }
+    .nav-dock-scroll {
+      display: flex;
 
-    .confetti-piece { position: absolute; top: -10px; width: 8px; height: 12px; background: gold; animation: cFall 2.5s ease-in infinite; }
-    @keyframes cFall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(750px) rotate(720deg); opacity: 0; } }
+      gap: 8px;
 
-    .password-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; display: none; justify-content: center; align-items: center; }
-    .password-modal.active { display: flex; }
-    .password-box { background: #fcfbf7; width: 85%; padding: 20px; border-radius: 12px; border: 2px solid #b8860b; text-align: center; }
-    .password-input { width: 100%; padding: 10px; border: 1px solid #cca043; border-radius: 6px; margin: 10px 0; text-align: center; }
-    .pass-btn { padding: 8px 14px; background: #b8860b; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      scroll-behavior: smooth;
+
+      padding-bottom: 2px;
+
+      -webkit-overflow-scrolling: touch;
+
+      scrollbar-width: none;
+    }
+
+    .nav-dock-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-group {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 3px;
+
+      flex: 0 0 auto;
+
+      border-right: 1px dashed rgba(184, 134, 11, 0.3);
+
+      padding-right: 6px;
+    }
+
+    .nav-group:last-child {
+      border-right: none;
+
+      padding-right: 0;
+    }
+
+    .nav-group-title {
+      font-size: 0.6rem;
+
+      font-weight: bold;
+
+      color: #721c24;
+
+      text-transform: uppercase;
+
+      text-align: center;
+    }
+
+    .nav-thumbs-row {
+      display: flex;
+
+      gap: 3px;
+    }
+
+    .nav-thumb {
+      width: 26px;
+      height: 36px;
+
+      border-radius: 3px;
+
+      overflow: hidden;
+
+      border: 1.5px solid transparent;
+
+      cursor: pointer;
+
+      background: #eee;
+
+      flex: 0 0 auto;
+    }
+
+    .nav-thumb img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .nav-thumb.active-thumb {
+      border-color: #b8860b;
+
+      box-shadow: 0 0 5px rgba(184, 134, 11, 0.8);
+    }
+
+    .nav-thumb.locked-thumb {
+      opacity: 0.4;
+
+      filter: grayscale(1);
+    }
+
+    .stamp-hotspot,
+    .party-hotspot {
+      position: absolute;
+
+      cursor: pointer;
+
+      border: 2px solid transparent;
+
+      border-radius: 8px;
+
+      z-index: 30;
+    }
+
+    .stamp-hotspot {
+      width: 38%;
+      height: 42%;
+
+      top: 26%;
+    }
+
+    .stamp-ladkewale {
+      left: 9%;
+    }
+
+    .stamp-ladkiwale {
+      right: 9%;
+    }
+
+    .party-hotspot {
+      top: 26%;
+
+      height: 42%;
+      width: 38%;
+    }
+
+    .party-hotspot-view {
+      left: 9%;
+    }
+
+    .party-hotspot-skip {
+      right: 9%;
+    }
+
+    .color-splash-overlay {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      pointer-events: none;
+
+      z-index: 20;
+
+      display: none;
+
+      overflow: hidden;
+    }
+
+    .color-splash-overlay.active-anim {
+      display: block;
+    }
+
+    .splash-drop {
+      position: absolute;
+
+      border-radius: 50%;
+
+      opacity: 0.8;
+
+      animation: popSplash 1.5s ease-out forwards;
+    }
+
+    @keyframes popSplash {
+      0% {
+        transform: scale(0.1);
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+
+    .jeep-lights-container {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      pointer-events: none;
+
+      z-index: 20;
+
+      display: none;
+    }
+
+    .jeep-lights-container.active-anim {
+      display: block;
+    }
+
+    .jeep-light {
+      position: absolute;
+
+      width: 2.2%;
+      height: 1.3%;
+
+      background: #fff;
+
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 10px 5px #ffd700,
+        0 0 18px 8px rgba(255, 255, 255, 0.9);
+
+      animation: blink 0.8s infinite alternate;
+    }
+
+    .jeep-left {
+      left: 10.2%;
+
+      top: 21.5%;
+    }
+
+    .jeep-right {
+      left: 26.8%;
+
+      top: 21.5%;
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 0.3;
+
+        transform: scale(0.8);
+      }
+
+      100% {
+        opacity: 1;
+
+        transform: scale(1.2);
+      }
+    }
+
+    .rose-petals-overlay,
+    .confetti-overlay {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      pointer-events: none;
+
+      z-index: 20;
+
+      display: none;
+
+      overflow: hidden;
+    }
+
+    .rose-petals-overlay.active-anim,
+    .confetti-overlay.active-anim {
+      display: block;
+    }
+
+    .red-petal {
+      position: absolute;
+
+      top: -20px;
+
+      width: 12px;
+      height: 14px;
+
+      background: #ff4d6d;
+
+      border-radius: 50% 0 50% 50%;
+
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+
+        opacity: 0;
+      }
+    }
+
+    .confetti-piece {
+      position: absolute;
+
+      top: -10px;
+
+      width: 8px;
+      height: 12px;
+
+      background: gold;
+
+      animation: cFall 2.5s ease-in infinite;
+    }
+
+    @keyframes cFall {
+      0% {
+        transform: translateY(0) rotate(0);
+
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+
+        opacity: 0;
+      }
+    }
+
+    .password-modal {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: rgba(0, 0, 0, 0.7);
+
+      z-index: 1000;
+
+      display: none;
+
+      justify-content: center;
+      align-items: center;
+    }
+
+    .password-modal.active {
+      display: flex;
+    }
+
+    .password-box {
+      background: #fcfbf7;
+
+      width: 85%;
+
+      padding: 20px;
+
+      border-radius: 12px;
+
+      border: 2px solid #b8860b;
+
+      text-align: center;
+    }
+
+    .password-input {
+      width: 100%;
+
+      padding: 10px;
+
+      border: 1px solid #cca043;
+
+      border-radius: 6px;
+
+      margin: 10px 0;
+
+      text-align: center;
+    }
+
+    .pass-btn {
+      padding: 8px 14px;
+
+      background: #b8860b;
+
+      color: #fff;
+
+      border: none;
+
+      border-radius: 6px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      width: 100%;
+    }
+
+    /*
+      Extra safety for very short landscape / small-height screens.
+    */
+    @media (max-height: 650px) {
+      .card-container {
+        width: min(
+          100vw,
+          calc(
+            (
+              100dvh
+              - 65px
+              - env(safe-area-inset-top)
+              - env(safe-area-inset-bottom)
+            ) * 9 / 16
+          )
+        );
+
+        max-height: calc(
+          100dvh
+          - 65px
+          - env(safe-area-inset-top)
+          - env(safe-area-inset-bottom)
+        );
+      }
+
+      .nav-thumb {
+        width: 22px;
+        height: 31px;
+      }
+
+      .nav-group-title {
+        font-size: 0.52rem;
+      }
+    }
   </style>
 </head>
-<body>  
-  <div class="card-container" id="invitationApp">    
+
+<body>
+
+  <div class="card-container" id="invitationApp">
 
     <div class="page-wrapper active" id="page1Wrapper">
-      <img src="1.png" class="page-img" alt="Envelope">
-      <div class="envelope-click-area" id="envelopeHotspot">      
-        <div class="click-badge">✉ Open Invitation</div>      
-        <div class="click-arrow">▼</div>    
+
+      <img
+        src="1.png"
+        class="page-img"
+        alt="Envelope"
+      >
+
+      <div
+        class="envelope-click-area"
+        id="envelopeHotspot"
+      >
+
+        <div class="click-badge">
+          ✉ Open Invitation
+        </div>
+
+        <div class="click-arrow">
+          ▼
+        </div>
+
       </div>
+
     </div>
 
-    <div class="page-wrapper" id="page2Wrapper"><img src="2.png" class="page-img" alt="Slide 2"></div>
-    <div class="page-wrapper" id="page3Wrapper"><img src="3.png" class="page-img" alt="Slide 3"></div>
-    <div class="page-wrapper" id="page4Wrapper"><img src="4.png" class="page-img" alt="Slide 4"></div>
 
-    <div class="page-wrapper" id="page5Wrapper">      
-      <img src="5.png" class="page-img" alt="Selection">      
-      <div class="stamp-hotspot stamp-ladkewale" id="ladkewaleBtn"></div>      
-      <div class="stamp-hotspot stamp-ladkiwale" id="ladkiwaleBtn"></div>    
-    </div>    
+    <div class="page-wrapper" id="page2Wrapper">
 
-    <div class="page-wrapper" id="page6Wrapper"><img src="6.png" class="page-img" alt="6"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="handlePage6Right()">&#10132;</div></div>    
-    <div class="page-wrapper" id="page7Wrapper"><img src="7.png" class="page-img" alt="7"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    <div class="page-wrapper" id="page8Wrapper"><img src="8.png" class="page-img" alt="8"><div class="arrow-btn arrow-btn-left" onclick="handlePage8Left()">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    <div class="page-wrapper" id="page9Wrapper"><img src="9.png" class="page-img" alt="9"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    <div class="page-wrapper" id="page10Wrapper"><img src="10.png" class="page-img" alt="10"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    
-    <div class="page-wrapper" id="page11Wrapper">      
-      <img src="11.png" class="page-img" alt="11">
+      <img
+        src="2.png"
+        class="page-img"
+        alt="Slide 2"
+      >
+
+    </div>
+
+
+    <div class="page-wrapper" id="page3Wrapper">
+
+      <img
+        src="3.png"
+        class="page-img"
+        alt="Slide 3"
+      >
+
+    </div>
+
+
+    <div class="page-wrapper" id="page4Wrapper">
+
+      <img
+        src="4.png"
+        class="page-img"
+        alt="Slide 4"
+      >
+
+    </div>
+
+
+    <div class="page-wrapper" id="page5Wrapper">
+
+      <img
+        src="5.png"
+        class="page-img"
+        alt="Selection"
+      >
+
+      <div
+        class="stamp-hotspot stamp-ladkewale"
+        id="ladkewaleBtn"
+      ></div>
+
+      <div
+        class="stamp-hotspot stamp-ladkiwale"
+        id="ladkiwaleBtn"
+      ></div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page6Wrapper">
+
+      <img
+        src="6.png"
+        class="page-img"
+        alt="6"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="handlePage6Right()"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page7Wrapper">
+
+      <img
+        src="7.png"
+        class="page-img"
+        alt="7"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page8Wrapper">
+
+      <img
+        src="8.png"
+        class="page-img"
+        alt="8"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="handlePage8Left()"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page9Wrapper">
+
+      <img
+        src="9.png"
+        class="page-img"
+        alt="9"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page10Wrapper">
+
+      <img
+        src="10.png"
+        class="page-img"
+        alt="10"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page11Wrapper">
+
+      <img
+        src="11.png"
+        class="page-img"
+        alt="11"
+      >
+
       <div class="color-splash-overlay active-anim">
-        <div class="splash-drop" style="background:#ff1493; top:20%; left:20%; width:100px; height:100px;"></div>
-        <div class="splash-drop" style="background:#ffd700; top:50%; right:20%; width:120px; height:120px;"></div>
+
+        <div
+          class="splash-drop"
+          style="
+            background:#ff1493;
+            top:20%;
+            left:20%;
+            width:100px;
+            height:100px;
+          "
+        ></div>
+
+        <div
+          class="splash-drop"
+          style="
+            background:#ffd700;
+            top:50%;
+            right:20%;
+            width:120px;
+            height:120px;
+          "
+        ></div>
+
       </div>
-      <div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div>    
-    </div>    
 
-    <div class="page-wrapper" id="page12Wrapper"><img src="12.png" class="page-img" alt="12"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    
-    <div class="page-wrapper" id="page13Wrapper">      
-      <img src="13.png" class="page-img" alt="13">      
-      <div class="party-hotspot party-hotspot-view" id="viewPartyBtn"></div>      
-      <div class="party-hotspot party-hotspot-skip" id="skipPartyBtn"></div>
-      <div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="openPasswordModal()">&#10132;</div>    
-    </div>    
-
-    <div class="page-wrapper" id="page14Wrapper"><img src="14.png" class="page-img" alt="14"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    <div class="page-wrapper" id="page15Wrapper"><img src="15.png" class="page-img" alt="15"><div class="arrow-btn arrow-btn-left" onclick="handlePage15Left()">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    <div class="page-wrapper" id="page16Wrapper"><img src="16.png" class="page-img" alt="16"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    
-    <div class="page-wrapper" id="page17Wrapper">      
-      <img src="17.png" class="page-img" alt="17">
-      <div class="jeep-lights-container active-anim">
-        <div class="jeep-light jeep-left"></div>
-        <div class="jeep-light jeep-right"></div>
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
       </div>
-      <div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div>    
-    </div>    
 
-    <div class="page-wrapper" id="page18Wrapper">      
-      <img src="18.png" class="page-img" alt="18">      
-      <div class="rose-petals-overlay active-anim">
-        <div class="red-petal" style="left:15%; animation-delay:0s;"></div>
-        <div class="red-petal" style="left:45%; animation-delay:1.2s;"></div>
-        <div class="red-petal" style="left:80%; animation-delay:0.6s;"></div>
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
       </div>
-      <div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div>    
-    </div>    
 
-    <div class="page-wrapper" id="page19Wrapper"><img src="19.png" class="page-img" alt="19"><div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right" onclick="changePage(1)">&#10132;</div></div>    
-    
-    <div class="page-wrapper" id="page20Wrapper">      
-      <img src="20.png" class="page-img" alt="20">      
-      <div class="confetti-overlay active-anim">
-        <div class="confetti-piece" style="left:20%; background:#ff4d6d; animation-delay:0.2s;"></div>
-        <div class="confetti-piece" style="left:50%; background:#ffd700; animation-delay:0.8s;"></div>
-        <div class="confetti-piece" style="left:85%; background:#00e676; animation-delay:0.4s;"></div>
-      </div>
-      <div class="arrow-btn arrow-btn-left" onclick="changePage(-1)">&#10132;</div><div class="arrow-btn arrow-btn-right disabled">&#10132;</div>    
-    </div>    
-
-    <div class="password-modal" id="passwordModal">      
-      <div class="password-box">        
-        <h3>🔒 Secret Party Access</h3>        
-        <input type="password" id="passInput" class="password-input" placeholder="Password...">        
-        <button class="pass-btn" onclick="verifyPassword()">Unlock</button>      
-      </div>    
-    </div>  
-
-    <div class="nav-dock-container" id="navDock">
-      <div class="nav-dock-scroll">
-        <div class="nav-group">
-          <div class="nav-group-title">Day 1</div>
-          <div class="nav-thumbs-row">
-            <div class="nav-thumb" onclick="goToPage(4)"><img src="5.png"></div>
-            <div class="nav-thumb" onclick="goToPage(5)"><img src="6.png"></div>
-            <div class="nav-thumb" onclick="goToPage(6)" id="thumb7"><img src="7.png"></div>
-            <div class="nav-thumb" onclick="goToPage(7)"><img src="8.png"></div>
-            <div class="nav-thumb" onclick="goToPage(8)"><img src="9.png"></div>
-          </div>
-        </div>
-        <div class="nav-group">
-          <div class="nav-group-title">Day 2</div>
-          <div class="nav-thumbs-row">
-            <div class="nav-thumb" onclick="goToPage(9)"><img src="10.png"></div>
-            <div class="nav-thumb" onclick="goToPage(10)"><img src="11.png"></div>
-            <div class="nav-thumb" onclick="goToPage(11)"><img src="12.png"></div>
-            <div class="nav-thumb" onclick="goToPage(12)"><img src="13.png"></div>
-            <div class="nav-thumb locked-thumb" onclick="goToPage(13)" id="thumb14"><img src="14.png"></div>
-          </div>
-        </div>
-        <div class="nav-group">
-          <div class="nav-group-title">Day 3</div>
-          <div class="nav-thumbs-row">
-            <div class="nav-thumb" onclick="goToPage(14)"><img src="15.png"></div>
-            <div class="nav-thumb" onclick="goToPage(15)"><img src="16.png"></div>
-            <div class="nav-thumb" onclick="goToPage(16)"><img src="17.png"></div>
-            <div class="nav-thumb" onclick="goToPage(17)"><img src="18.png"></div>
-            <div class="nav-thumb" onclick="goToPage(18)"><img src="19.png"></div>
-            <div class="nav-thumb" onclick="goToPage(19)"><img src="20.png"></div>
-          </div>
-        </div>
-      </div>
     </div>
+
+
+    <div class="page-wrapper" id="page12Wrapper">
+
+      <img
+        src="12.png"
+        class="page-img"
+        alt="12"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page13Wrapper">
+
+      <img
+        src="13.png"
+        class="page-img"
+        alt="13"
+      >
+
+      <div
+        class="party-hotspot party-hotspot-view"
+        id="viewPartyBtn"
+      ></div>
+
+      <div
+        class="party-hotspot party-hotspot-skip"
+        id="skipPartyBtn"
+      ></div>
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="openPasswordModal()"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page14Wrapper">
+
+      <img
+        src="14.png"
+        class="page-img"
+        alt="14"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page15Wrapper">
+
+      <img
+        src="15.png"
+        class="page-img"
+        alt="15"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="handlePage15Left()"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page16Wrapper">
+
+      <img
+        src="16.png"
+        class="page-img"
+        alt="16"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page17Wrapper">
+
+      <img
+        src="17.png"
+        class="page-img"
+        alt="17"
+      >
+
+      <div class="jeep-lights-container active-anim">
+
+        <div class="jeep-light jeep-left"></div>
+
+        <div class="jeep-light jeep-right"></div>
+
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page18Wrapper">
+
+      <img
+        src="18.png"
+        class="page-img"
+        alt="18"
+      >
+
+      <div class="rose-petals-overlay active-anim">
+
+        <div
+          class="red-petal"
+          style="
+            left:15%;
+            animation-delay:0s;
+          "
+        ></div>
+
+        <div
+          class="red-petal"
+          style="
+            left:45%;
+            animation-delay:1.2s;
+          "
+        ></div>
+
+        <div
+          class="red-petal"
+          style="
+            left:80%;
+            animation-delay:0.6s;
+          "
+        ></div>
+
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page19Wrapper">
+
+      <img
+        src="19.png"
+        class="page-img"
+        alt="19"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div class="page-wrapper" id="page20Wrapper">
+
+      <img
+        src="20.png"
+        class="page-img"
+        alt="20"
+      >
+
+      <div class="confetti-overlay active-anim">
+
+        <div
+          class="confetti-piece"
+          style="
+            left:20%;
+            background:#ff4d6d;
+            animation-delay:0.2s;
+          "
+        ></div>
+
+        <div
+          class="confetti-piece"
+          style="
+            left:50%;
+            background:#ffd700;
+            animation-delay:0.8s;
+          "
+        ></div>
+
+        <div
+          class="confetti-piece"
+          style="
+            left:85%;
+            background:#00e676;
+            animation-delay:0.4s;
+          "
+        ></div>
+
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div class="arrow-btn arrow-btn-right disabled">
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <div
+      class="password-modal"
+      id="passwordModal"
+    >
+
+      <div class="password-box">
+
+        <h3>
+          🔒 Secret Party Access
+        </h3>
+
+        <input
+          type="password"
+          id="passInput"
+          class="password-input"
+          placeholder="Password..."
+        >
+
+        <button
+          class="pass-btn"
+          onclick="verifyPassword()"
+        >
+          Unlock
+        </button>
+
+      </div>
+
+    </div>
+
   </div>
 
+
+  <!--
+    IMPORTANT:
+    Navigation dock is OUTSIDE card-container.
+    This stops it covering the invitation.
+  -->
+  <div
+    class="nav-dock-container"
+    id="navDock"
+  >
+
+    <div class="nav-dock-scroll">
+
+      <div class="nav-group">
+
+        <div class="nav-group-title">
+          Day 1
+        </div>
+
+        <div class="nav-thumbs-row">
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(4)"
+          >
+            <img src="5.png" alt="Page 5">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(5)"
+          >
+            <img src="6.png" alt="Page 6">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(6)"
+            id="thumb7"
+          >
+            <img src="7.png" alt="Page 7">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(7)"
+          >
+            <img src="8.png" alt="Page 8">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(8)"
+          >
+            <img src="9.png" alt="Page 9">
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="nav-group">
+
+        <div class="nav-group-title">
+          Day 2
+        </div>
+
+        <div class="nav-thumbs-row">
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(9)"
+          >
+            <img src="10.png" alt="Page 10">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(10)"
+          >
+            <img src="11.png" alt="Page 11">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(11)"
+          >
+            <img src="12.png" alt="Page 12">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(12)"
+          >
+            <img src="13.png" alt="Page 13">
+          </div>
+
+          <div
+            class="nav-thumb locked-thumb"
+            onclick="goToPage(13)"
+            id="thumb14"
+          >
+            <img src="14.png" alt="Page 14">
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="nav-group">
+
+        <div class="nav-group-title">
+          Day 3
+        </div>
+
+        <div class="nav-thumbs-row">
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(14)"
+          >
+            <img src="15.png" alt="Page 15">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(15)"
+          >
+            <img src="16.png" alt="Page 16">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(16)"
+          >
+            <img src="17.png" alt="Page 17">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(17)"
+          >
+            <img src="18.png" alt="Page 18">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(18)"
+          >
+            <img src="19.png" alt="Page 19">
+          </div>
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(19)"
+          >
+            <img src="20.png" alt="Page 20">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
   <script>
-    const imageFiles = ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png','13.png','14.png','15.png','16.png','17.png','18.png','19.png','20.png'];
-    imageFiles.forEach(src => { const img = new Image(); img.src = src; });
+    const imageFiles = [
+      '1.png',
+      '2.png',
+      '3.png',
+      '4.png',
+      '5.png',
+      '6.png',
+      '7.png',
+      '8.png',
+      '9.png',
+      '10.png',
+      '11.png',
+      '12.png',
+      '13.png',
+      '14.png',
+      '15.png',
+      '16.png',
+      '17.png',
+      '18.png',
+      '19.png',
+      '20.png'
+    ];
+
+    imageFiles.forEach(src => {
+      const img = new Image();
+
+      img.src = src;
+    });
+
 
     const pages = document.querySelectorAll('.page-wrapper');
+
     let currentIndex = 0;
+
     let selectedSide = 'ladkewale';
+
     let partySkipped = false;
+
     let partyUnlocked = false;
 
+
     function goToPage(index) {
-      if (index === 13 && !partyUnlocked) {
+
+      if (
+        index === 13 &&
+        !partyUnlocked
+      ) {
+
         openPasswordModal();
+
         return;
       }
-      if (index < 0 || index >= pages.length) return;
+
+      if (
+        index < 0 ||
+        index >= pages.length
+      ) {
+
+        return;
+      }
+
       pages[currentIndex].classList.remove('active');
+
       currentIndex = index;
+
       pages[currentIndex].classList.add('active');
-      
-      if(currentIndex >= 4) document.getElementById('navDock').classList.add('active');
+
+
+      if (currentIndex >= 4) {
+
+        document
+          .getElementById('navDock')
+          .classList
+          .add('active');
+
+      } else {
+
+        document
+          .getElementById('navDock')
+          .classList
+          .remove('active');
+
+      }
+
       updateThumbnails();
     }
 
-    function changePage(step) {
-      let next = currentIndex + step;
-      if (selectedSide === 'ladkiwale' && currentIndex === 5 && step > 0) next = 7;
-      else if (selectedSide === 'ladkiwale' && currentIndex === 7 && step < 0) next = 5;
 
-      if (partySkipped && currentIndex === 12 && step > 0) next = 14;
-      else if (partySkipped && currentIndex === 14 && step < 0) next = 12;
+    function changePage(step) {
+
+      let next = currentIndex + step;
+
+
+      if (
+        selectedSide === 'ladkiwale' &&
+        currentIndex === 5 &&
+        step > 0
+      ) {
+
+        next = 7;
+
+      } else if (
+        selectedSide === 'ladkiwale' &&
+        currentIndex === 7 &&
+        step < 0
+      ) {
+
+        next = 5;
+      }
+
+
+      if (
+        partySkipped &&
+        currentIndex === 12 &&
+        step > 0
+      ) {
+
+        next = 14;
+
+      } else if (
+        partySkipped &&
+        currentIndex === 14 &&
+        step < 0
+      ) {
+
+        next = 12;
+      }
+
 
       goToPage(next);
     }
 
+
     function updateThumbnails() {
-      document.querySelectorAll('.nav-thumb').forEach((t, i) => {
-        if (i + 4 === currentIndex) t.classList.add('active-thumb');
-        else t.classList.remove('active-thumb');
-      });
+
+      document
+        .querySelectorAll('.nav-thumb')
+        .forEach((thumb, i) => {
+
+          if (
+            i + 4 === currentIndex
+          ) {
+
+            thumb.classList.add('active-thumb');
+
+          } else {
+
+            thumb.classList.remove('active-thumb');
+
+          }
+
+        });
     }
 
-    document.getElementById('envelopeHotspot').addEventListener('click', () => {
-      let step = 0;
-      let interval = setInterval(() => {
-        step++;
-        if (step <= 4) {
-          pages[step-1].classList.remove('active');
-          pages[step].classList.add('active');
-        } else {
-          clearInterval(interval);
-          goToPage(4);
-        }
-      }, 350);
-    });
 
-    document.getElementById('ladkewaleBtn').addEventListener('click', () => {
-      selectedSide = 'ladkewale';
-      document.getElementById('thumb7').style.display = 'block';
-      goToPage(5);
-    });
-    document.getElementById('ladkiwaleBtn').addEventListener('click', () => {
-      selectedSide = 'ladkiwale';
-      document.getElementById('thumb7').style.display = 'none';
-      goToPage(5);
-    });
+    document
+      .getElementById('envelopeHotspot')
+      .addEventListener('click', () => {
+
+        let step = 0;
+
+        const interval = setInterval(() => {
+
+          step++;
+
+
+          if (step <= 4) {
+
+            pages[step - 1]
+              .classList
+              .remove('active');
+
+            pages[step]
+              .classList
+              .add('active');
+
+          } else {
+
+            clearInterval(interval);
+
+            goToPage(4);
+
+          }
+
+        }, 350);
+
+      });
+
+
+    document
+      .getElementById('ladkewaleBtn')
+      .addEventListener('click', () => {
+
+        selectedSide = 'ladkewale';
+
+        document
+          .getElementById('thumb7')
+          .style
+          .display = 'block';
+
+        goToPage(5);
+
+      });
+
+
+    document
+      .getElementById('ladkiwaleBtn')
+      .addEventListener('click', () => {
+
+        selectedSide = 'ladkiwale';
+
+        document
+          .getElementById('thumb7')
+          .style
+          .display = 'none';
+
+        goToPage(5);
+
+      });
+
 
     function handlePage6Right() {
-      if (selectedSide === 'ladkiwale') goToPage(7);
-      else goToPage(6);
-    }
-    function handlePage8Left() {
-      if (selectedSide === 'ladkiwale') goToPage(5);
-      else goToPage(6);
-    }
-    function handlePage15Left() {
-      if (partySkipped) goToPage(12);
-      else goToPage(13);
+
+      if (
+        selectedSide === 'ladkiwale'
+      ) {
+
+        goToPage(7);
+
+      } else {
+
+        goToPage(6);
+      }
+
     }
 
-    document.getElementById('viewPartyBtn').addEventListener('click', openPasswordModal);
-    document.getElementById('skipPartyBtn').addEventListener('click', () => {
-      partySkipped = true;
-      goToPage(14);
-    });
+
+    function handlePage8Left() {
+
+      if (
+        selectedSide === 'ladkiwale'
+      ) {
+
+        goToPage(5);
+
+      } else {
+
+        goToPage(6);
+      }
+
+    }
+
+
+    function handlePage15Left() {
+
+      if (partySkipped) {
+
+        goToPage(12);
+
+      } else {
+
+        goToPage(13);
+      }
+
+    }
+
+
+    document
+      .getElementById('viewPartyBtn')
+      .addEventListener(
+        'click',
+        openPasswordModal
+      );
+
+
+    document
+      .getElementById('skipPartyBtn')
+      .addEventListener('click', () => {
+
+        partySkipped = true;
+
+        goToPage(14);
+
+      });
+
 
     function openPasswordModal() {
-      document.getElementById('passwordModal').classList.add('active');
+
+      document
+        .getElementById('passwordModal')
+        .classList
+        .add('active');
+
     }
+
+
     function verifyPassword() {
-      let val = document.getElementById('passInput').value.trim().toLowerCase();
-      if (val === 'trishnaisthebest') {
-        document.getElementById('passwordModal').classList.remove('active');
+
+      const val = document
+        .getElementById('passInput')
+        .value
+        .trim()
+        .toLowerCase();
+
+
+      if (
+        val === 'trishnaisthebest'
+      ) {
+
+        document
+          .getElementById('passwordModal')
+          .classList
+          .remove('active');
+
+
         partyUnlocked = true;
+
         partySkipped = false;
-        document.getElementById('thumb14').classList.remove('locked-thumb');
+
+
+        document
+          .getElementById('thumb14')
+          .classList
+          .remove('locked-thumb');
+
+
         goToPage(13);
+
       } else {
+
         alert('Incorrect Password!');
+
       }
+
     }
   </script>
+
 </body>
 </html>
