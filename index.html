@@ -7,31 +7,31 @@
   <style>    
     * { box-sizing: border-box; margin: 0; padding: 0; }    
     body {      
-      background-color: #0d0d0d;      
+      background-color: #0b0b0b;      
       display: flex;      
       justify-content: center;      
       align-items: center;      
       min-height: 100vh;      
-      width: 100vw;
+      width: 100vw;      
       font-family: 'Georgia', serif;      
-      overflow: hidden; 
-      position: fixed;   
-    }    
+      overflow: hidden;      
+      position: fixed;    }    
 
+    /* PROPORTIONAL ASPECT RATIO WRAPPER (1080x1800 -> 166.66% height ratio) */
     .card-container {      
       position: relative;      
       width: 100%;      
-      max-width: 420px;      
-      height: 100%;
-      max-height: 100vh;
-      aspect-ratio: 1080 / 1800; 
+      max-width: 410px;      
+      height: 0;
+      padding-bottom: 166.66%; /* Perfect math ratio for 1080x1800 on all screens */
+      max-height: 100vh;      
       background: #fcfbf7;      
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);      
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.7);      
       overflow: hidden;    }    
 
     .page-wrapper {      
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;      
-      opacity: 0; pointer-events: none; transition: opacity 0.2s ease-in-out;      
+      opacity: 0; pointer-events: none; transition: opacity 0.18s ease-in-out;      
       background: #fcfbf7; display: flex; justify-content: center; align-items: center;
     }    
     .page-wrapper.active { opacity: 1; pointer-events: auto; z-index: 10; }    
@@ -39,26 +39,27 @@
     .page-img { 
       width: 100%; 
       height: 100%; 
-      object-fit: cover; 
-      object-position: center top;
-      position: relative; 
+      object-fit: fill; /* Stretches pixel-perfect to your exact dimensions */
+      position: absolute; 
+      top: 0;
+      left: 0;
       z-index: 1; 
     }    
 
     .envelope-click-area {      
-      position: absolute; bottom: 25px; left: 12%; width: 76%; height: 220px; z-index: 20;      
+      position: absolute; bottom: 8%; left: 12%; width: 76%; height: 28%; z-index: 20;      
       cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; 
     }    
     .click-badge {      
-      position: absolute; bottom: 45px; background: linear-gradient(135deg, #b8860b, #d4af37);      
+      position: absolute; bottom: 25%; background: linear-gradient(135deg, #b8860b, #d4af37);      
       color: #ffffff; padding: 8px 18px; border-radius: 20px; font-size: 0.82rem; font-weight: bold;      
       letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);      
       border: 1px solid rgba(255, 255, 255, 0.6); z-index: 22; 
     }    
-    .click-arrow { position: absolute; bottom: 25px; font-size: 1.2rem; color: #b8860b; z-index: 22; }    
+    .click-arrow { position: absolute; bottom: 10%; font-size: 1.2rem; color: #b8860b; z-index: 22; }    
 
     .arrow-btn {      
-      position: absolute; top: 44%; width: 36px; height: 36px; background: rgba(184, 134, 11, 0.9);      
+      position: absolute; top: 48%; width: 36px; height: 36px; background: rgba(184, 134, 11, 0.9);      
       color: #ffffff; border: 1px solid #fff; border-radius: 50%;      
       display: flex; justify-content: center; align-items: center; font-size: 1.1rem;      
       font-weight: bold; cursor: pointer; z-index: 99; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
@@ -67,8 +68,9 @@
     .arrow-btn-right { right: 8px; transform: translateY(-50%); }    
     .arrow-btn.disabled { opacity: 0.2; pointer-events: none; }
 
+    /* iPhone Dock safely padded with 100px-equivalent clearance */
     .nav-dock-container {
-      position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%) scale(0.82);
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%) scale(0.82);
       transform-origin: bottom center; width: 96%; background: rgba(252, 251, 247, 0.96);
       backdrop-filter: blur(6px); border: 1px solid rgba(184, 134, 11, 0.4);
       border-radius: 10px; padding: 4px 6px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
@@ -96,17 +98,16 @@
     .splash-drop { position: absolute; border-radius: 50%; opacity: 0.8; animation: popSplash 1.5s ease-out forwards; }
     @keyframes popSplash { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
 
-    /* ABSOLUTE LOCKED JEEP HEADLIGHTS */
+    /* RELATIVELY ANCHORED JEEP HEADLIGHTS */
     .jeep-lights-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; }
     .jeep-lights-container.active-anim { display: block; }
     .jeep-light { 
-      position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 50%; 
-      box-shadow: 0 0 12px 6px #ffd700, 0 0 20px 10px rgba(255,255,255,0.9); 
+      position: absolute; width: 2.2%; height: 1.3%; background: #fff; border-radius: 50%; 
+      box-shadow: 0 0 10px 5px #ffd700, 0 0 18px 8px rgba(255,255,255,0.9); 
       animation: blink 0.8s infinite alternate; 
     }
-    /* Fixed coordinates mapped exactly to the grill bounds */
-    .jeep-left { left: 9.8%; top: 18.2%; } 
-    .jeep-right { left: 26.2%; top: 18.2%; }
+    .jeep-left { left: 10.2%; top: 21.5%; } 
+    .jeep-right { left: 26.8%; top: 21.5%; }
     @keyframes blink { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
     .rose-petals-overlay, .confetti-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; overflow: hidden; }
@@ -251,6 +252,10 @@
   </div>
 
   <script>
+    // PRE-CACHING IMAGES FOR ZERO-LAG FLIPPING
+    const imageFiles = ['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png','13.png','14.png','15.png','16.png','17.png','18.png','19.png','20.png'];
+    imageFiles.forEach(src => { const img = new Image(); img.src = src; });
+
     const pages = document.querySelectorAll('.page-wrapper');
     let currentIndex = 0;
     let selectedSide = 'ladkewale';
