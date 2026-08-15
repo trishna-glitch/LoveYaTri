@@ -2,38 +2,48 @@
 <html lang="en">
 <head>  
   <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
   <title>#LoveYaTri Wedding Invitation</title>  
   <style>    
     * { box-sizing: border-box; margin: 0; padding: 0; }    
     body {      
-      background-color: #121212;      
+      background-color: #0d0d0d;      
       display: flex;      
       justify-content: center;      
       align-items: center;      
       min-height: 100vh;      
+      width: 100vw;
       font-family: 'Georgia', serif;      
-      overflow: hidden;    }    
+      overflow: hidden; 
+      position: fixed;   
+    }    
 
-    /* Exact 1080 x 1800 mobile proportion scaling */
     .card-container {      
       position: relative;      
-      width: 100vw;      
-      max-width: 410px;      
-      height: 100vh;      
-      max-height: 730px; 
+      width: 100%;      
+      max-width: 420px;      
+      height: 100%;
+      max-height: 100vh;
+      aspect-ratio: 1080 / 1800; 
       background: #fcfbf7;      
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);      
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);      
       overflow: hidden;    }    
 
     .page-wrapper {      
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;      
-      opacity: 0; pointer-events: none; transition: opacity 0.25s ease-in-out;      
+      opacity: 0; pointer-events: none; transition: opacity 0.2s ease-in-out;      
       background: #fcfbf7; display: flex; justify-content: center; align-items: center;
     }    
     .page-wrapper.active { opacity: 1; pointer-events: auto; z-index: 10; }    
-    /* Ensures entire 1080x1800 image fits nicely without cropping */
-    .page-img { width: 100%; height: 100%; object-fit: contain; position: relative; z-index: 1; }    
+    
+    .page-img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      object-position: center top;
+      position: relative; 
+      z-index: 1; 
+    }    
 
     .envelope-click-area {      
       position: absolute; bottom: 25px; left: 12%; width: 76%; height: 220px; z-index: 20;      
@@ -48,7 +58,7 @@
     .click-arrow { position: absolute; bottom: 25px; font-size: 1.2rem; color: #b8860b; z-index: 22; }    
 
     .arrow-btn {      
-      position: absolute; top: 46%; width: 36px; height: 36px; background: rgba(184, 134, 11, 0.9);      
+      position: absolute; top: 44%; width: 36px; height: 36px; background: rgba(184, 134, 11, 0.9);      
       color: #ffffff; border: 1px solid #fff; border-radius: 50%;      
       display: flex; justify-content: center; align-items: center; font-size: 1.1rem;      
       font-weight: bold; cursor: pointer; z-index: 99; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
@@ -57,9 +67,8 @@
     .arrow-btn-right { right: 8px; transform: translateY(-50%); }    
     .arrow-btn.disabled { opacity: 0.2; pointer-events: none; }
 
-    /* iPhone Dock given 100px clearance from bottom */
     .nav-dock-container {
-      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%) scale(0.82);
+      position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%) scale(0.82);
       transform-origin: bottom center; width: 96%; background: rgba(252, 251, 247, 0.96);
       backdrop-filter: blur(6px); border: 1px solid rgba(184, 134, 11, 0.4);
       border-radius: 10px; padding: 4px 6px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
@@ -77,35 +86,30 @@
     .nav-thumb.locked-thumb { opacity: 0.4; filter: grayscale(1); }
 
     .stamp-hotspot, .party-hotspot { position: absolute; cursor: pointer; border: 2px solid transparent; border-radius: 8px; z-index: 30; }    
-    .stamp-hotspot { width: 38%; height: 42%; top: 28%; }    
+    .stamp-hotspot { width: 38%; height: 42%; top: 26%; }    
     .stamp-ladkewale { left: 9%; }    .stamp-ladkiwale { right: 9%; }    
-    .party-hotspot { top: 28%; height: 42%; width: 38%; }    
+    .party-hotspot { top: 26%; height: 42%; width: 38%; }    
     .party-hotspot-view { left: 9%; }    .party-hotspot-skip { right: 9%; }    
 
-    .color-splash-overlay {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; overflow: hidden;
-    }
+    .color-splash-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; overflow: hidden; }
     .color-splash-overlay.active-anim { display: block; }
     .splash-drop { position: absolute; border-radius: 50%; opacity: 0.8; animation: popSplash 1.5s ease-out forwards; }
     @keyframes popSplash { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
 
-    /* JEEP HEADLIGHTS */
-    .jeep-lights-container {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none;
-    }
+    /* ABSOLUTE LOCKED JEEP HEADLIGHTS */
+    .jeep-lights-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; }
     .jeep-lights-container.active-anim { display: block; }
     .jeep-light { 
-      position: absolute; width: 9px; height: 9px; background: #fff; border-radius: 50%; 
-      box-shadow: 0 0 10px 5px #ffd700, 0 0 18px 8px rgba(255,255,255,0.9); 
+      position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 50%; 
+      box-shadow: 0 0 12px 6px #ffd700, 0 0 20px 10px rgba(255,255,255,0.9); 
       animation: blink 0.8s infinite alternate; 
     }
-    .jeep-left { left: 7.2%; top: 26.5%; } 
-    .jeep-right { left: 24.8%; top: 26.5%; }
+    /* Fixed coordinates mapped exactly to the grill bounds */
+    .jeep-left { left: 9.8%; top: 18.2%; } 
+    .jeep-right { left: 26.2%; top: 18.2%; }
     @keyframes blink { 0% { opacity: 0.3; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
-    .rose-petals-overlay, .confetti-overlay {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; overflow: hidden;
-    }
+    .rose-petals-overlay, .confetti-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; display: none; overflow: hidden; }
     .rose-petals-overlay.active-anim, .confetti-overlay.active-anim { display: block; }
     
     .red-petal { position: absolute; top: -20px; width: 12px; height: 14px; background: #ff4d6d; border-radius: 50% 0 50% 50%; animation: fall 3s linear infinite; }
