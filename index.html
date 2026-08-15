@@ -11,9 +11,12 @@
 
   <title>#LoveYaTri Wedding Invitation</title>
 
-  <!-- Prioritise the first screen -->
-  <link rel="preload" as="image" href="1.png" fetchpriority="high">
+  <!-- PRIORITISE THE OPENING PAGES -->
+  <link rel="preload" as="image" href="1.png">
   <link rel="preload" as="image" href="2.png">
+  <link rel="preload" as="image" href="3.png">
+  <link rel="preload" as="image" href="4.png">
+  <link rel="preload" as="image" href="5.png">
 
   <style>
 
@@ -28,6 +31,7 @@
       width: 100%;
       height: 100%;
       background: #0b0b0b;
+
       overflow: hidden;
       overscroll-behavior: none;
     }
@@ -56,10 +60,10 @@
     }
 
 
-    /* =========================
+    /* =========================================
        MAIN INVITATION
-       1080 × 1920 / 9:16
-       ========================= */
+       TRUE 1080 × 1920 / 9:16
+       ========================================= */
 
     .card-container {
       position: relative;
@@ -96,24 +100,26 @@
 
       flex-shrink: 0;
 
-      touch-action: manipulation;
-
       perspective: 1400px;
+
+      touch-action: manipulation;
     }
 
 
-    /* =========================
+    /* =========================================
        PAGES
-       ========================= */
+       ========================================= */
 
     .page-wrapper {
       position: absolute;
+
       inset: 0;
 
       width: 100%;
       height: 100%;
 
       opacity: 0;
+
       pointer-events: none;
 
       background: #fcfbf7;
@@ -123,30 +129,31 @@
       align-items: center;
 
       transform-style: preserve-3d;
+
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-
-      will-change: transform, opacity;
     }
 
     .page-wrapper.active {
       opacity: 1;
+
       pointer-events: auto;
+
       z-index: 10;
     }
 
 
-    /* =========================
-       SUBTLE PAPER FLIP
-       ========================= */
+    /* =========================================
+       FAST PAPER FLIP
+       ========================================= */
 
     .page-wrapper.flip-next {
       transform-origin: left center;
 
       animation:
         paperFlipNext
-        0.42s
-        cubic-bezier(0.22, 0.72, 0.22, 1)
+        0.28s
+        ease-out
         both;
     }
 
@@ -155,33 +162,20 @@
 
       animation:
         paperFlipPrev
-        0.42s
-        cubic-bezier(0.22, 0.72, 0.22, 1)
+        0.28s
+        ease-out
         both;
     }
 
     @keyframes paperFlipNext {
 
       0% {
-        opacity: 0.35;
+        opacity: 0.6;
 
         transform:
           perspective(1400px)
-          rotateY(-15deg)
-          translateX(2%);
-
-        filter: brightness(0.94);
-      }
-
-      65% {
-        opacity: 1;
-
-        transform:
-          perspective(1400px)
-          rotateY(2deg)
-          translateX(0);
-
-        filter: brightness(1);
+          rotateY(-11deg)
+          translateX(1%);
       }
 
       100% {
@@ -191,8 +185,6 @@
           perspective(1400px)
           rotateY(0deg)
           translateX(0);
-
-        filter: brightness(1);
       }
 
     }
@@ -201,25 +193,12 @@
     @keyframes paperFlipPrev {
 
       0% {
-        opacity: 0.35;
+        opacity: 0.6;
 
         transform:
           perspective(1400px)
-          rotateY(15deg)
-          translateX(-2%);
-
-        filter: brightness(0.94);
-      }
-
-      65% {
-        opacity: 1;
-
-        transform:
-          perspective(1400px)
-          rotateY(-2deg)
-          translateX(0);
-
-        filter: brightness(1);
+          rotateY(11deg)
+          translateX(-1%);
       }
 
       100% {
@@ -229,19 +208,18 @@
           perspective(1400px)
           rotateY(0deg)
           translateX(0);
-
-        filter: brightness(1);
       }
 
     }
 
 
-    /* =========================
+    /* =========================================
        IMAGES
-       ========================= */
+       ========================================= */
 
     .page-img {
       position: absolute;
+
       inset: 0;
 
       width: 100%;
@@ -258,21 +236,23 @@
 
       user-select: none;
       -webkit-user-select: none;
+
       -webkit-user-drag: none;
       -webkit-touch-callout: none;
     }
 
     img {
       user-select: none;
+
       -webkit-user-select: none;
       -webkit-user-drag: none;
       -webkit-touch-callout: none;
     }
 
 
-    /* =========================
+    /* =========================================
        OPEN INVITATION
-       ========================= */
+       ========================================= */
 
     .envelope-click-area {
       position: absolute;
@@ -296,6 +276,7 @@
 
       user-select: none;
       -webkit-user-select: none;
+
       -webkit-touch-callout: none;
 
       -webkit-tap-highlight-color: transparent;
@@ -320,9 +301,11 @@
       border-radius: 20px;
 
       font-size: 0.82rem;
+
       font-weight: bold;
 
       letter-spacing: 1px;
+
       text-transform: uppercase;
 
       white-space: nowrap;
@@ -355,9 +338,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        ARROWS
-       ========================= */
+       ========================================= */
 
     .arrow-btn {
       position: absolute;
@@ -368,12 +351,7 @@
       height: clamp(30px, 9vw, 38px);
 
       background:
-        rgba(
-          184,
-          134,
-          11,
-          0.9
-        );
+        rgba(184, 134, 11, 0.9);
 
       color: #ffffff;
 
@@ -406,6 +384,7 @@
 
       user-select: none;
       -webkit-user-select: none;
+
       -webkit-touch-callout: none;
 
       -webkit-tap-highlight-color: transparent;
@@ -428,13 +407,14 @@
 
     .arrow-btn.disabled {
       opacity: 0.2;
+
       pointer-events: none;
     }
 
 
-    /* =========================
+    /* =========================================
        BOTTOM NAVIGATION
-       ========================= */
+       ========================================= */
 
     .nav-dock-container {
       position: fixed;
@@ -468,12 +448,7 @@
 
       border:
         1px solid
-        rgba(
-          184,
-          134,
-          11,
-          0.4
-        );
+        rgba(184, 134, 11, 0.4);
 
       border-radius: 10px;
 
@@ -521,6 +496,7 @@
 
     .nav-group {
       display: flex;
+
       flex-direction: column;
 
       gap: 3px;
@@ -536,6 +512,7 @@
 
     .nav-group:last-child {
       border-right: none;
+
       padding-right: 0;
     }
 
@@ -553,6 +530,7 @@
 
     .nav-thumbs-row {
       display: flex;
+
       gap: 3px;
     }
 
@@ -596,13 +574,14 @@
 
     .nav-thumb.locked-thumb {
       opacity: 0.4;
+
       filter: grayscale(1);
     }
 
 
-    /* =========================
+    /* =========================================
        HOTSPOTS
-       ========================= */
+       ========================================= */
 
     .stamp-hotspot,
     .party-hotspot {
@@ -654,9 +633,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        HALDI COLOUR SPLASH
-       ========================= */
+       ========================================= */
 
     .holi-splash-overlay {
       position: absolute;
@@ -745,24 +724,10 @@
         ),
 
         radial-gradient(
-          circle at 35% 87%,
-          var(--splash-color) 0 5%,
-          transparent 6%
-        ),
-
-        radial-gradient(
-          circle at 73% 90%,
-          var(--splash-color) 0 3.5%,
-          transparent 4.5%
-        ),
-
-        radial-gradient(
           ellipse at center,
           var(--splash-color) 0 38%,
           transparent 39%
         );
-
-      filter: saturate(1.2);
     }
 
 
@@ -776,7 +741,6 @@
         rgba(255, 193, 7, 0.82);
     }
 
-
     .holi-splash-two {
       right: -8%;
       top: 38%;
@@ -786,7 +750,6 @@
       --splash-color:
         rgba(236, 37, 112, 0.76);
     }
-
 
     .holi-splash-three {
       left: 24%;
@@ -800,7 +763,6 @@
         rgba(255, 111, 0, 0.72);
     }
 
-
     .holi-splash-four {
       right: 14%;
       top: 20%;
@@ -813,11 +775,6 @@
         rgba(54, 180, 87, 0.58);
     }
 
-
-    /*
-       Appears, splashes, then disappears.
-       Total max time ≈ 2 seconds.
-    */
 
     #page11Wrapper.active
     .holi-splash-one {
@@ -887,7 +844,7 @@
       }
 
       75% {
-        opacity: 0.55;
+        opacity: 0.5;
       }
 
       100% {
@@ -901,9 +858,10 @@
     }
 
 
-    /* =========================
-       PETALS & CONFETTI
-       ========================= */
+    /* =========================================
+       PETALS + CONFETTI
+       ONLY RUN WHILE PAGE IS VISIBLE
+       ========================================= */
 
     .rose-petals-overlay,
     .confetti-overlay {
@@ -923,7 +881,10 @@
       overflow: hidden;
     }
 
+    .page-wrapper.active
     .rose-petals-overlay.active-anim,
+
+    .page-wrapper.active
     .confetti-overlay.active-anim {
       display: block;
     }
@@ -1007,9 +968,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        PASSWORD
-       ========================= */
+       ========================================= */
 
     .password-modal {
       position: absolute;
@@ -1040,13 +1001,16 @@
       background: #fcfbf7;
 
       width: 88%;
+
       max-width: 330px;
 
       padding: 22px;
 
       border-radius: 14px;
 
-      border: 2px solid #b8860b;
+      border:
+        2px solid
+        #b8860b;
 
       text-align: center;
 
@@ -1071,7 +1035,9 @@
 
       padding: 11px;
 
-      border: 1px solid #cca043;
+      border:
+        1px solid
+        #cca043;
 
       border-radius: 7px;
 
@@ -1134,7 +1100,9 @@
 
       color: #5a4b3c;
 
-      border: 1px solid #d2c7b8;
+      border:
+        1px solid
+        #d2c7b8;
     }
 
     .pass-btn-unlock {
@@ -1144,9 +1112,9 @@
     }
 
 
-    /* =========================
-       SMALL PHONES
-       ========================= */
+    /* =========================================
+       SMALLER PHONES
+       ========================================= */
 
     @media (max-height: 650px) {
 
@@ -1168,7 +1136,8 @@
               - 62px
               - env(safe-area-inset-top)
               - env(safe-area-inset-bottom)
-            ) * 9 / 16
+            )
+            * 9 / 16
           )
         );
 
@@ -1210,18 +1179,12 @@
 <body>
 
 
-  <div
-    class="card-container"
-    id="invitationApp"
-  >
+  <div class="card-container" id="invitationApp">
 
 
     <!-- PAGE 1 -->
 
-    <div
-      class="page-wrapper active"
-      id="page1Wrapper"
-    >
+    <div class="page-wrapper active" id="page1Wrapper">
 
       <img
         src="1.png"
@@ -1255,15 +1218,12 @@
 
     <!-- PAGE 2 -->
 
-    <div
-      class="page-wrapper"
-      id="page2Wrapper"
-    >
+    <div class="page-wrapper" id="page2Wrapper">
 
       <img
         src="2.png"
         class="page-img"
-        alt="Slide 2"
+        alt="2"
         draggable="false"
         decoding="async"
       >
@@ -1273,15 +1233,12 @@
 
     <!-- PAGE 3 -->
 
-    <div
-      class="page-wrapper"
-      id="page3Wrapper"
-    >
+    <div class="page-wrapper" id="page3Wrapper">
 
       <img
         src="3.png"
         class="page-img"
-        alt="Slide 3"
+        alt="3"
         draggable="false"
         decoding="async"
       >
@@ -1291,15 +1248,12 @@
 
     <!-- PAGE 4 -->
 
-    <div
-      class="page-wrapper"
-      id="page4Wrapper"
-    >
+    <div class="page-wrapper" id="page4Wrapper">
 
       <img
         src="4.png"
         class="page-img"
-        alt="Slide 4"
+        alt="4"
         draggable="false"
         decoding="async"
       >
@@ -1309,10 +1263,7 @@
 
     <!-- PAGE 5 -->
 
-    <div
-      class="page-wrapper"
-      id="page5Wrapper"
-    >
+    <div class="page-wrapper" id="page5Wrapper">
 
       <img
         src="5.png"
@@ -1337,13 +1288,10 @@
 
     <!-- PAGE 6 -->
 
-    <div
-      class="page-wrapper"
-      id="page6Wrapper"
-    >
+    <div class="page-wrapper" id="page6Wrapper">
 
       <img
-        data-src="6.png"
+        src="6.png"
         class="page-img"
         alt="6"
         draggable="false"
@@ -1369,13 +1317,10 @@
 
     <!-- PAGE 7 -->
 
-    <div
-      class="page-wrapper"
-      id="page7Wrapper"
-    >
+    <div class="page-wrapper" id="page7Wrapper">
 
       <img
-        data-src="7.png"
+        src="7.png"
         class="page-img"
         alt="7"
         draggable="false"
@@ -1401,13 +1346,10 @@
 
     <!-- PAGE 8 -->
 
-    <div
-      class="page-wrapper"
-      id="page8Wrapper"
-    >
+    <div class="page-wrapper" id="page8Wrapper">
 
       <img
-        data-src="8.png"
+        src="8.png"
         class="page-img"
         alt="8"
         draggable="false"
@@ -1433,13 +1375,10 @@
 
     <!-- PAGE 9 -->
 
-    <div
-      class="page-wrapper"
-      id="page9Wrapper"
-    >
+    <div class="page-wrapper" id="page9Wrapper">
 
       <img
-        data-src="9.png"
+        src="9.png"
         class="page-img"
         alt="9"
         draggable="false"
@@ -1465,13 +1404,10 @@
 
     <!-- PAGE 10 -->
 
-    <div
-      class="page-wrapper"
-      id="page10Wrapper"
-    >
+    <div class="page-wrapper" id="page10Wrapper">
 
       <img
-        data-src="10.png"
+        src="10.png"
         class="page-img"
         alt="10"
         draggable="false"
@@ -1497,13 +1433,10 @@
 
     <!-- PAGE 11 - HALDI -->
 
-    <div
-      class="page-wrapper"
-      id="page11Wrapper"
-    >
+    <div class="page-wrapper" id="page11Wrapper">
 
       <img
-        data-src="11.png"
+        src="11.png"
         class="page-img"
         alt="11"
         draggable="false"
@@ -1551,13 +1484,10 @@
 
     <!-- PAGE 12 -->
 
-    <div
-      class="page-wrapper"
-      id="page12Wrapper"
-    >
+    <div class="page-wrapper" id="page12Wrapper">
 
       <img
-        data-src="12.png"
+        src="12.png"
         class="page-img"
         alt="12"
         draggable="false"
@@ -1583,13 +1513,10 @@
 
     <!-- PAGE 13 -->
 
-    <div
-      class="page-wrapper"
-      id="page13Wrapper"
-    >
+    <div class="page-wrapper" id="page13Wrapper">
 
       <img
-        data-src="13.png"
+        src="13.png"
         class="page-img"
         alt="13"
         draggable="false"
@@ -1615,11 +1542,7 @@
       </div>
 
 
-      <!--
-        IMPORTANT:
-        Page 13 right arrow now SKIPS Page 14
-        and goes straight to Page 15.
-      -->
+      <!-- RIGHT ARROW = SKIP SECRET PARTY -->
 
       <div
         class="arrow-btn arrow-btn-right"
@@ -1631,15 +1554,12 @@
     </div>
 
 
-    <!-- PAGE 14 - SECRET PARTY -->
+    <!-- PAGE 14 - SECRET -->
 
-    <div
-      class="page-wrapper"
-      id="page14Wrapper"
-    >
+    <div class="page-wrapper" id="page14Wrapper">
 
       <img
-        data-src="14.png"
+        src="14.png"
         class="page-img"
         alt="14"
         draggable="false"
@@ -1665,13 +1585,10 @@
 
     <!-- PAGE 15 -->
 
-    <div
-      class="page-wrapper"
-      id="page15Wrapper"
-    >
+    <div class="page-wrapper" id="page15Wrapper">
 
       <img
-        data-src="15.png"
+        src="15.png"
         class="page-img"
         alt="15"
         draggable="false"
@@ -1697,13 +1614,10 @@
 
     <!-- PAGE 16 -->
 
-    <div
-      class="page-wrapper"
-      id="page16Wrapper"
-    >
+    <div class="page-wrapper" id="page16Wrapper">
 
       <img
-        data-src="16.png"
+        src="16.png"
         class="page-img"
         alt="16"
         draggable="false"
@@ -1729,13 +1643,10 @@
 
     <!-- PAGE 17 - NO HEADLIGHTS -->
 
-    <div
-      class="page-wrapper"
-      id="page17Wrapper"
-    >
+    <div class="page-wrapper" id="page17Wrapper">
 
       <img
-        data-src="17.png"
+        src="17.png"
         class="page-img"
         alt="17"
         draggable="false"
@@ -1761,45 +1672,32 @@
 
     <!-- PAGE 18 -->
 
-    <div
-      class="page-wrapper"
-      id="page18Wrapper"
-    >
+    <div class="page-wrapper" id="page18Wrapper">
 
       <img
-        data-src="18.png"
+        src="18.png"
         class="page-img"
         alt="18"
         draggable="false"
         decoding="async"
       >
 
-      <div
-        class="rose-petals-overlay active-anim"
-      >
+
+      <div class="rose-petals-overlay active-anim">
 
         <div
           class="red-petal"
-          style="
-            left:15%;
-            animation-delay:0s;
-          "
+          style="left:15%; animation-delay:0s;"
         ></div>
 
         <div
           class="red-petal"
-          style="
-            left:45%;
-            animation-delay:1.2s;
-          "
+          style="left:45%; animation-delay:1.2s;"
         ></div>
 
         <div
           class="red-petal"
-          style="
-            left:80%;
-            animation-delay:0.6s;
-          "
+          style="left:80%; animation-delay:0.6s;"
         ></div>
 
       </div>
@@ -1824,13 +1722,10 @@
 
     <!-- PAGE 19 -->
 
-    <div
-      class="page-wrapper"
-      id="page19Wrapper"
-    >
+    <div class="page-wrapper" id="page19Wrapper">
 
       <img
-        data-src="19.png"
+        src="19.png"
         class="page-img"
         alt="19"
         draggable="false"
@@ -1856,22 +1751,18 @@
 
     <!-- PAGE 20 -->
 
-    <div
-      class="page-wrapper"
-      id="page20Wrapper"
-    >
+    <div class="page-wrapper" id="page20Wrapper">
 
       <img
-        data-src="20.png"
+        src="20.png"
         class="page-img"
         alt="20"
         draggable="false"
         decoding="async"
       >
 
-      <div
-        class="confetti-overlay active-anim"
-      >
+
+      <div class="confetti-overlay active-anim">
 
         <div
           class="confetti-piece"
@@ -1919,7 +1810,7 @@
     </div>
 
 
-    <!-- PASSWORD -->
+    <!-- PASSWORD MODAL -->
 
     <div
       class="password-modal"
@@ -1965,7 +1856,6 @@
 
         </div>
 
-
       </div>
 
     </div>
@@ -1974,9 +1864,9 @@
   </div>
 
 
-  <!-- =========================
+  <!-- =========================================
        BOTTOM NAVIGATION
-       ========================= -->
+       ========================================= -->
 
   <div
     class="nav-dock-container"
@@ -2001,12 +1891,7 @@
             data-page-index="4"
             onclick="goToPage(4)"
           >
-            <img
-              src="5.png"
-              alt="Page 5"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="5.png" alt="Page 5">
           </div>
 
 
@@ -2015,12 +1900,7 @@
             data-page-index="5"
             onclick="goToPage(5)"
           >
-            <img
-              data-src="6.png"
-              alt="Page 6"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="6.png" alt="Page 6">
           </div>
 
 
@@ -2030,12 +1910,7 @@
             onclick="goToPage(6)"
             id="thumb7"
           >
-            <img
-              data-src="7.png"
-              alt="Page 7"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="7.png" alt="Page 7">
           </div>
 
 
@@ -2044,12 +1919,7 @@
             data-page-index="7"
             onclick="goToPage(7)"
           >
-            <img
-              data-src="8.png"
-              alt="Page 8"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="8.png" alt="Page 8">
           </div>
 
 
@@ -2058,12 +1928,7 @@
             data-page-index="8"
             onclick="goToPage(8)"
           >
-            <img
-              data-src="9.png"
-              alt="Page 9"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="9.png" alt="Page 9">
           </div>
 
         </div>
@@ -2086,12 +1951,7 @@
             data-page-index="9"
             onclick="goToPage(9)"
           >
-            <img
-              data-src="10.png"
-              alt="Page 10"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="10.png" alt="Page 10">
           </div>
 
 
@@ -2100,12 +1960,7 @@
             data-page-index="10"
             onclick="goToPage(10)"
           >
-            <img
-              data-src="11.png"
-              alt="Page 11"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="11.png" alt="Page 11">
           </div>
 
 
@@ -2114,12 +1969,7 @@
             data-page-index="11"
             onclick="goToPage(11)"
           >
-            <img
-              data-src="12.png"
-              alt="Page 12"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="12.png" alt="Page 12">
           </div>
 
 
@@ -2128,12 +1978,7 @@
             data-page-index="12"
             onclick="goToPage(12)"
           >
-            <img
-              data-src="13.png"
-              alt="Page 13"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="13.png" alt="Page 13">
           </div>
 
 
@@ -2143,12 +1988,7 @@
             onclick="goToPage(13)"
             id="thumb14"
           >
-            <img
-              data-src="14.png"
-              alt="Page 14"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="14.png" alt="Page 14">
           </div>
 
         </div>
@@ -2171,12 +2011,7 @@
             data-page-index="14"
             onclick="goToPage(14)"
           >
-            <img
-              data-src="15.png"
-              alt="Page 15"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="15.png" alt="Page 15">
           </div>
 
 
@@ -2185,12 +2020,7 @@
             data-page-index="15"
             onclick="goToPage(15)"
           >
-            <img
-              data-src="16.png"
-              alt="Page 16"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="16.png" alt="Page 16">
           </div>
 
 
@@ -2199,12 +2029,7 @@
             data-page-index="16"
             onclick="goToPage(16)"
           >
-            <img
-              data-src="17.png"
-              alt="Page 17"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="17.png" alt="Page 17">
           </div>
 
 
@@ -2213,12 +2038,7 @@
             data-page-index="17"
             onclick="goToPage(17)"
           >
-            <img
-              data-src="18.png"
-              alt="Page 18"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="18.png" alt="Page 18">
           </div>
 
 
@@ -2227,12 +2047,7 @@
             data-page-index="18"
             onclick="goToPage(18)"
           >
-            <img
-              data-src="19.png"
-              alt="Page 19"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="19.png" alt="Page 19">
           </div>
 
 
@@ -2241,12 +2056,7 @@
             data-page-index="19"
             onclick="goToPage(19)"
           >
-            <img
-              data-src="20.png"
-              alt="Page 20"
-              draggable="false"
-              decoding="async"
-            >
+            <img src="20.png" alt="Page 20">
           </div>
 
         </div>
@@ -2261,22 +2071,54 @@
 
   <script>
 
-    /* =========================
+    /* =========================================
+       PRELOAD ALL PNGS IN BACKGROUND
+       NO WAITING DURING NAVIGATION
+       ========================================= */
+
+    const imageFiles = [
+      '1.png',
+      '2.png',
+      '3.png',
+      '4.png',
+      '5.png',
+      '6.png',
+      '7.png',
+      '8.png',
+      '9.png',
+      '10.png',
+      '11.png',
+      '12.png',
+      '13.png',
+      '14.png',
+      '15.png',
+      '16.png',
+      '17.png',
+      '18.png',
+      '19.png',
+      '20.png'
+    ];
+
+
+    imageFiles.forEach(
+      function(src) {
+
+        const img = new Image();
+
+        img.src = src;
+
+      }
+    );
+
+
+    /* =========================================
        VARIABLES
-       ========================= */
+       ========================================= */
 
     const pages =
       Array.from(
         document.querySelectorAll(
           '.page-wrapper'
-        )
-      );
-
-
-    const pageImages =
-      Array.from(
-        document.querySelectorAll(
-          '.page-img'
         )
       );
 
@@ -2295,23 +2137,17 @@
     let invitationOpening =
       false;
 
-    let backgroundLoadingStarted =
-      false;
 
-
-    /* =========================
-       STOP GOOGLE SEARCH /
-       LONG PRESS / IMAGE DRAG
-       ========================= */
+    /* =========================================
+       STOP GOOGLE SEARCH / LONG PRESS
+       ========================================= */
 
     document.addEventListener(
       'contextmenu',
       function(event) {
 
         if (
-          !event.target.closest(
-            'input'
-          )
+          !event.target.closest('input')
         ) {
 
           event.preventDefault();
@@ -2337,9 +2173,7 @@
       function(event) {
 
         if (
-          !event.target.closest(
-            'input'
-          )
+          !event.target.closest('input')
         ) {
 
           event.preventDefault();
@@ -2350,281 +2184,20 @@
     );
 
 
-    /* =========================
-       FASTER STAGED IMAGE LOADING
-       ========================= */
-
-    function loadThumbnailForPage(
-      index
-    ) {
-
-      const thumb =
-        document.querySelector(
-          '.nav-thumb[data-page-index="' +
-          index +
-          '"] img'
-        );
-
-
-      if (
-        !thumb
-      ) {
-
-        return;
-
-      }
-
-
-      if (
-        !thumb.hasAttribute('src')
-        &&
-        thumb.dataset.src
-      ) {
-
-        thumb.src =
-          thumb.dataset.src;
-
-      }
-
-    }
-
-
-    function ensurePageImage(
-      index
-    ) {
-
-
-      return new Promise(
-        function(resolve) {
-
-
-          const img =
-            pageImages[index];
-
-
-          if (
-            !img
-          ) {
-
-            resolve();
-
-            return;
-
-          }
-
-
-          if (
-            !img.hasAttribute('src')
-            &&
-            img.dataset.src
-          ) {
-
-            img.src =
-              img.dataset.src;
-
-          }
-
-
-          loadThumbnailForPage(
-            index
-          );
-
-
-          if (
-            img.complete
-            &&
-            img.naturalWidth > 0
-          ) {
-
-
-            if (
-              img.decode
-            ) {
-
-              img
-                .decode()
-                .catch(
-                  function() {}
-                )
-                .finally(
-                  resolve
-                );
-
-            } else {
-
-              resolve();
-
-            }
-
-
-            return;
-
-          }
-
-
-          const finish =
-            function() {
-
-              resolve();
-
-            };
-
-
-          img.addEventListener(
-            'load',
-            finish,
-            {
-              once: true
-            }
-          );
-
-
-          img.addEventListener(
-            'error',
-            finish,
-            {
-              once: true
-            }
-          );
-
-
-        }
-      );
-
-    }
-
-
-    function smallPause(
-      milliseconds
-    ) {
-
-      return new Promise(
-        function(resolve) {
-
-          setTimeout(
-            resolve,
-            milliseconds
-          );
-
-        }
-      );
-
-    }
-
-
-    async function startBackgroundLoading() {
-
-
-      if (
-        backgroundLoadingStarted
-      ) {
-
-        return;
-
-      }
-
-
-      backgroundLoadingStarted =
-        true;
-
-
-      /*
-        Pages 1–5 load immediately.
-
-        Pages 6–20 load one-by-one AFTER
-        the first screens are ready.
-
-        This prevents 20 large PNGs from
-        fighting each other on initial load.
-      */
-
-
-      for (
-        let i = 5;
-        i < pageImages.length;
-        i++
-      ) {
-
-
-        await ensurePageImage(
-          i
-        );
-
-
-        await smallPause(
-          70
-        );
-
-
-      }
-
-    }
-
-
-    function preloadNearbyPages(
-      index
-    ) {
-
-
-      if (
-        index + 1 <
-        pageImages.length
-      ) {
-
-        ensurePageImage(
-          index + 1
-        );
-
-      }
-
-
-      if (
-        index + 2 <
-        pageImages.length
-      ) {
-
-        ensurePageImage(
-          index + 2
-        );
-
-      }
-
-    }
-
-
-    /*
-      Only start loading the rest AFTER
-      the initial page resources finish.
-    */
-
-    window.addEventListener(
-      'load',
-      function() {
-
-        setTimeout(
-          startBackgroundLoading,
-          300
-        );
-
-      }
-    );
-
-
-    /* =========================
+    /* =========================================
        PAGE NAVIGATION
-       ========================= */
+       NO IMAGE WAITING
+       ========================================= */
 
-    async function goToPage(
+    function goToPage(
       index,
       forcedDirection
     ) {
 
 
       /*
-        Page 14 is the secret page.
-
-        JavaScript counts from zero,
-        so visual Page 14 = index 13.
+        Visual Page 14
+        = JavaScript index 13.
       */
 
       if (
@@ -2651,35 +2224,18 @@
       }
 
 
-      /*
-        If the target PNG has not loaded,
-        load it BEFORE removing the page
-        currently visible.
-      */
-
-      await ensurePageImage(
-        index
-      );
-
-
       const previousIndex =
         currentIndex;
 
 
-      let direction =
-        forcedDirection;
-
-
-      if (
-        !direction
-      ) {
-
-        direction =
+      const direction =
+        forcedDirection
+        ||
+        (
           index >= previousIndex
           ? 'next'
-          : 'prev';
-
-      }
+          : 'prev'
+        );
 
 
       const oldPage =
@@ -2690,61 +2246,40 @@
         pages[index];
 
 
-      oldPage
-        .classList
-        .remove(
-          'active',
-          'flip-next',
-          'flip-prev'
-        );
+      oldPage.classList.remove(
+        'active',
+        'flip-next',
+        'flip-prev'
+      );
 
 
-      currentIndex =
-        index;
+      currentIndex = index;
 
 
-      newPage
-        .classList
-        .remove(
-          'flip-next',
-          'flip-prev'
-        );
+      newPage.classList.remove(
+        'flip-next',
+        'flip-prev'
+      );
 
-
-      /*
-        Force browser reflow so the
-        flip animation restarts even
-        when revisiting the same page.
-      */
 
       void newPage.offsetWidth;
 
 
-      newPage
-        .classList
-        .add(
-          'active'
-        );
-
-
       if (
-        direction ===
-        'prev'
+        direction === 'prev'
       ) {
 
-        newPage
-          .classList
-          .add(
-            'flip-prev'
-          );
+        newPage.classList.add(
+          'active',
+          'flip-prev'
+        );
 
       } else {
 
-        newPage
-          .classList
-          .add(
-            'flip-next'
-          );
+        newPage.classList.add(
+          'active',
+          'flip-next'
+        );
 
       }
 
@@ -2752,15 +2287,13 @@
       setTimeout(
         function() {
 
-          newPage
-            .classList
-            .remove(
-              'flip-next',
-              'flip-prev'
-            );
+          newPage.classList.remove(
+            'flip-next',
+            'flip-prev'
+          );
 
         },
-        450
+        300
       );
 
 
@@ -2769,18 +2302,14 @@
       ) {
 
         document
-          .getElementById(
-            'navDock'
-          )
+          .getElementById('navDock')
           .classList
           .add('active');
 
       } else {
 
         document
-          .getElementById(
-            'navDock'
-          )
+          .getElementById('navDock')
           .classList
           .remove('active');
 
@@ -2789,60 +2318,35 @@
 
       updateThumbnails();
 
-
-      preloadNearbyPages(
-        currentIndex
-      );
-
     }
 
 
-    async function changePage(
-      step
-    ) {
-
+    function changePage(step) {
 
       let next =
         currentIndex + step;
 
 
-      /*
-        LADKIWALE ROUTE
-      */
+      /* LADKIWALE ROUTE */
 
       if (
-
-        selectedSide ===
-          'ladkiwale'
-
+        selectedSide === 'ladkiwale'
         &&
-
         currentIndex === 5
-
         &&
-
         step > 0
-
       ) {
 
         next = 7;
 
       }
 
-
       else if (
-
-        selectedSide ===
-          'ladkiwale'
-
+        selectedSide === 'ladkiwale'
         &&
-
         currentIndex === 7
-
         &&
-
         step < 0
-
       ) {
 
         next = 5;
@@ -2850,41 +2354,26 @@
       }
 
 
-      /*
-        SECRET PARTY SKIP ROUTE
-      */
+      /* SECRET PARTY SKIP ROUTE */
 
       if (
-
         partySkipped
-
         &&
-
         currentIndex === 12
-
         &&
-
         step > 0
-
       ) {
 
         next = 14;
 
       }
 
-
       else if (
-
         partySkipped
-
         &&
-
         currentIndex === 14
-
         &&
-
         step < 0
-
       ) {
 
         next = 12;
@@ -2892,22 +2381,21 @@
       }
 
 
-      await goToPage(
+      goToPage(
         next,
         step < 0
-          ? 'prev'
-          : 'next'
+        ? 'prev'
+        : 'next'
       );
 
     }
 
 
-    /* =========================
+    /* =========================================
        THUMBNAILS
-       ========================= */
+       ========================================= */
 
     function updateThumbnails() {
-
 
       const thumbs =
         document.querySelectorAll(
@@ -2918,7 +2406,6 @@
       thumbs.forEach(
         function(thumb) {
 
-
           const index =
             Number(
               thumb.dataset.pageIndex
@@ -2926,10 +2413,8 @@
 
 
           if (
-            index ===
-            currentIndex
+            index === currentIndex
           ) {
-
 
             thumb.classList.add(
               'active-thumb'
@@ -2938,28 +2423,21 @@
 
             thumb.scrollIntoView({
 
-              behavior:
-                'smooth',
+              behavior: 'smooth',
 
-              block:
-                'nearest',
+              block: 'nearest',
 
-              inline:
-                'center'
+              inline: 'center'
 
             });
 
-
           } else {
-
 
             thumb.classList.remove(
               'active-thumb'
             );
 
-
           }
-
 
         }
       );
@@ -2967,9 +2445,9 @@
     }
 
 
-    /* =========================
+    /* =========================================
        OPEN INVITATION
-       ========================= */
+       ========================================= */
 
     const envelopeHotspot =
       document.getElementById(
@@ -2977,8 +2455,7 @@
       );
 
 
-    async function openInvitation() {
-
+    function openInvitation() {
 
       if (
         invitationOpening
@@ -2989,51 +2466,49 @@
       }
 
 
-      invitationOpening =
-        true;
+      invitationOpening = true;
+
+
+      let targetPage = 1;
 
 
       /*
-        Automatically flip:
-        Page 1 → 2 → 3 → 4 → 5
+        Quick opening:
+        1 → 2 → 3 → 4 → 5
       */
 
-      for (
-        let index = 1;
-        index <= 4;
-        index++
-      ) {
+      const openingInterval =
+        setInterval(
+          function() {
 
 
-        await goToPage(
-          index,
-          'next'
+            if (
+              targetPage <= 4
+            ) {
+
+              goToPage(
+                targetPage,
+                'next'
+              );
+
+
+              targetPage++;
+
+            } else {
+
+              clearInterval(
+                openingInterval
+              );
+
+
+              invitationOpening =
+                false;
+
+            }
+
+          },
+          240
         );
-
-
-        await smallPause(
-          350
-        );
-
-
-      }
-
-
-      invitationOpening =
-        false;
-
-
-      /*
-        Once invitation is open,
-        make sure the next Day 1
-        pages are given priority.
-      */
-
-      ensurePageImage(5);
-
-      ensurePageImage(6);
-
-      ensurePageImage(7);
 
     }
 
@@ -3092,27 +2567,22 @@
     );
 
 
-    /* =========================
+    /* =========================================
        LADKEWALE / LADKIWALE
-       ========================= */
+       ========================================= */
 
     document
-      .getElementById(
-        'ladkewaleBtn'
-      )
+      .getElementById('ladkewaleBtn')
       .addEventListener(
         'click',
         function() {
-
 
           selectedSide =
             'ladkewale';
 
 
           document
-            .getElementById(
-              'thumb7'
-            )
+            .getElementById('thumb7')
             .style
             .display =
               'block';
@@ -3123,28 +2593,22 @@
             'next'
           );
 
-
         }
       );
 
 
     document
-      .getElementById(
-        'ladkiwaleBtn'
-      )
+      .getElementById('ladkiwaleBtn')
       .addEventListener(
         'click',
         function() {
-
 
           selectedSide =
             'ladkiwale';
 
 
           document
-            .getElementById(
-              'thumb7'
-            )
+            .getElementById('thumb7')
             .style
             .display =
               'none';
@@ -3155,21 +2619,18 @@
             'next'
           );
 
-
         }
       );
 
 
-    /* =========================
-       SPECIAL ROUTES
-       ========================= */
+    /* =========================================
+       SPECIAL PAGE ROUTES
+       ========================================= */
 
     function handlePage6Right() {
 
-
       if (
-        selectedSide ===
-        'ladkiwale'
+        selectedSide === 'ladkiwale'
       ) {
 
         goToPage(
@@ -3191,10 +2652,8 @@
 
     function handlePage8Left() {
 
-
       if (
-        selectedSide ===
-        'ladkiwale'
+        selectedSide === 'ladkiwale'
       ) {
 
         goToPage(
@@ -3216,18 +2675,16 @@
 
     function handlePage15Left() {
 
-
-      /*
-        If they skipped the secret page,
-        Page 15 returns to Page 13.
-
-        If they unlocked/viewed it,
-        Page 15 returns to Page 14.
-      */
-
       if (
         partySkipped
       ) {
+
+        /*
+          They skipped Page 14.
+
+          Go from Page 15
+          straight back to Page 13.
+        */
 
         goToPage(
           12,
@@ -3235,6 +2692,11 @@
         );
 
       } else {
+
+        /*
+          They viewed/unlocked
+          Page 14.
+        */
 
         goToPage(
           13,
@@ -3246,24 +2708,17 @@
     }
 
 
-    /* =========================
+    /* =========================================
        SECRET PARTY
-       ========================= */
+       ========================================= */
 
     function viewSecretParty() {
-
-
-      /*
-        If already unlocked,
-        don't ask for password again.
-      */
 
       if (
         partyUnlocked
       ) {
 
-        partySkipped =
-          false;
+        partySkipped = false;
 
 
         goToPage(
@@ -3284,13 +2739,12 @@
 
     function skipSecretParty() {
 
-
-      partySkipped =
-        true;
+      partySkipped = true;
 
 
       /*
-        Visual Page 15 = JS index 14.
+        Visual Page 15
+        = JavaScript index 14.
       */
 
       goToPage(
@@ -3302,9 +2756,7 @@
 
 
     document
-      .getElementById(
-        'viewPartyBtn'
-      )
+      .getElementById('viewPartyBtn')
       .addEventListener(
         'click',
         viewSecretParty
@@ -3312,26 +2764,21 @@
 
 
     document
-      .getElementById(
-        'skipPartyBtn'
-      )
+      .getElementById('skipPartyBtn')
       .addEventListener(
         'click',
         skipSecretParty
       );
 
 
-    /* =========================
+    /* =========================================
        PASSWORD
-       ========================= */
+       ========================================= */
 
     function openPasswordModal() {
 
-
       document
-        .getElementById(
-          'passwordModal'
-        )
+        .getElementById('passwordModal')
         .classList
         .add('active');
 
@@ -3339,13 +2786,9 @@
       setTimeout(
         function() {
 
-
           document
-            .getElementById(
-              'passInput'
-            )
+            .getElementById('passInput')
             .focus();
-
 
         },
         100
@@ -3355,7 +2798,6 @@
 
 
     function closePasswordModal() {
-
 
       const modal =
         document.getElementById(
@@ -3369,13 +2811,12 @@
         );
 
 
-      modal
-        .classList
-        .remove('active');
+      modal.classList.remove(
+        'active'
+      );
 
 
       input.value = '';
-
 
       input.blur();
 
@@ -3384,7 +2825,6 @@
 
     function verifyPassword() {
 
-
       const input =
         document.getElementById(
           'passInput'
@@ -3392,17 +2832,15 @@
 
 
       const val =
-        input
-          .value
-          .trim();
+        input.value.trim();
 
 
       /*
-        EXACT CASE-SENSITIVE PASSWORD:
+        EXACT PASSWORD:
 
         Trishnaisthebest
 
-        Capital T
+        Capital T.
         Everything else lowercase.
       */
 
@@ -3411,48 +2849,32 @@
         'Trishnaisthebest'
       ) {
 
-
         document
-          .getElementById(
-            'passwordModal'
-          )
+          .getElementById('passwordModal')
           .classList
           .remove('active');
 
 
-        partyUnlocked =
-          true;
+        partyUnlocked = true;
 
-
-        partySkipped =
-          false;
+        partySkipped = false;
 
 
         document
-          .getElementById(
-            'thumb14'
-          )
+          .getElementById('thumb14')
           .classList
-          .remove(
-            'locked-thumb'
-          );
+          .remove('locked-thumb');
 
 
         input.value = '';
 
-
-        /*
-          Open visual Page 14.
-        */
 
         goToPage(
           13,
           'next'
         );
 
-
       } else {
-
 
         alert(
           'Incorrect Password!'
@@ -3461,9 +2883,7 @@
 
         input.value = '';
 
-
         input.focus();
-
 
       }
 
@@ -3471,28 +2891,20 @@
 
 
     document
-      .getElementById(
-        'passInput'
-      )
+      .getElementById('passInput')
       .addEventListener(
         'keydown',
         function(event) {
 
-
           if (
-            event.key ===
-            'Enter'
+            event.key === 'Enter'
           ) {
-
 
             event.preventDefault();
 
-
             verifyPassword();
 
-
           }
-
 
         }
       );
