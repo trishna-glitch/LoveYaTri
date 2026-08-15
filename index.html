@@ -1,233 +1,2952 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+
   <title>#LoveYaTri Wedding Invitation</title>
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
       width: 100%;
       height: 100%;
       background: #0b0b0b;
-      font-family: 'Georgia', serif;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      overscroll-behavior: none;
     }
 
-    .app-frame {
-      position: relative;
-      width: 100%;
-      max-width: 430px;
-      height: 100%;
-      max-height: 95vh;
-      background: #fcfbf7;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      overflow: hidden;
+    body {
+      font-family: Georgia, serif;
+
       display: flex;
       justify-content: center;
       align-items: center;
+
+      width: 100%;
+
+      min-height: 100vh;
+      min-height: 100dvh;
+
+      padding:
+        env(safe-area-inset-top)
+        0
+        calc(72px + env(safe-area-inset-bottom))
+        0;
+
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
     }
+
+
+    /* =========================
+       MAIN INVITATION
+       ========================= */
+
+    .card-container {
+      position: relative;
+
+      width: min(
+        100vw,
+        430px,
+        calc(
+          (
+            100dvh
+            - 72px
+            - env(safe-area-inset-top)
+            - env(safe-area-inset-bottom)
+          ) * 9 / 16
+        )
+      );
+
+      aspect-ratio: 9 / 16;
+
+      max-height: calc(
+        100dvh
+        - 72px
+        - env(safe-area-inset-top)
+        - env(safe-area-inset-bottom)
+      );
+
+      background: #fcfbf7;
+
+      box-shadow:
+        0 10px 35px
+        rgba(0, 0, 0, 0.7);
+
+      overflow: hidden;
+
+      flex-shrink: 0;
+
+      touch-action: manipulation;
+    }
+
+
+    /* =========================
+       PAGES
+       ========================= */
 
     .page-wrapper {
       position: absolute;
+
       inset: 0;
+
       width: 100%;
       height: 100%;
+
       opacity: 0;
+
       pointer-events: none;
-      transition: opacity 0.2s ease-in-out;
+
+      transition: opacity 0.15s ease-in-out;
+
       background: #fcfbf7;
+
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
     .page-wrapper.active {
       opacity: 1;
       pointer-events: auto;
       z-index: 10;
     }
 
+
+    /* =========================
+       IMAGES
+       ========================= */
+
     .page-img {
+      position: absolute;
+
+      inset: 0;
+
       width: 100%;
       height: 100%;
+
       object-fit: contain;
       object-position: center;
+
+      display: block;
+
+      z-index: 1;
+
+      pointer-events: none;
+
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
     }
 
-    .arrow-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 40px;
-      height: 40px;
-      background: rgba(184, 134, 11, 0.9);
-      color: #fff;
-      border: 1px solid #fff;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.1rem;
-      cursor: pointer;
-      z-index: 99;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    img {
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
     }
-    .arrow-left { left: 10px; transform: translateY(-50%) rotate(180deg); }
-    .arrow-right { right: 10px; transform: translateY(-50%); }
-    .arrow-btn.disabled { opacity: 0.2; pointer-events: none; }
 
-    .envelope-hotspot {
+
+    /* =========================
+       OPEN INVITATION
+       ========================= */
+
+    .envelope-click-area {
       position: absolute;
-      bottom: 10%;
-      left: 15%;
-      width: 70%;
-      height: 25%;
+
+      bottom: 8%;
+      left: 12%;
+
+      width: 76%;
+      height: 28%;
+
+      z-index: 50;
+
       cursor: pointer;
-      z-index: 30;
+
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+
+      touch-action: manipulation;
+
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+
+      -webkit-tap-highlight-color: transparent;
     }
-    .open-badge {
-      background: linear-gradient(135deg, #b8860b, #d4af37);
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 25px;
-      font-size: 0.85rem;
+
+    .click-badge {
+      position: absolute;
+
+      bottom: 25%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #b8860b,
+          #d4af37
+        );
+
+      color: #ffffff;
+
+      padding: 8px 18px;
+
+      border-radius: 20px;
+
+      font-size: 0.82rem;
       font-weight: bold;
+
       letter-spacing: 1px;
       text-transform: uppercase;
-      box-shadow: 0 4px 15px rgba(184,134,11,0.5);
+
+      white-space: nowrap;
+
+      box-shadow:
+        0 4px 15px
+        rgba(184, 134, 11, 0.4);
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.6);
+
+      z-index: 52;
+
+      pointer-events: none;
+
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
     }
 
-    .stamp-hotspot, .party-hotspot {
-      position: absolute; top: 28%; width: 38%; height: 40%; cursor: pointer; z-index: 25;
+    .click-arrow {
+      position: absolute;
+
+      bottom: 10%;
+
+      font-size: 1.2rem;
+
+      color: #b8860b;
+
+      z-index: 52;
+
+      pointer-events: none;
+
+      user-select: none;
+      -webkit-user-select: none;
     }
-    .stamp-left { left: 8%; } .stamp-right { right: 8%; }
-    .party-left { left: 8%; } .party-right { right: 8%; }
 
-    .anim-layer { position: absolute; inset: 0; pointer-events: none; z-index: 20; display: none; overflow: hidden; }
-    .anim-layer.active { display: block; }
 
-    .petal { position: absolute; top: -20px; width: 12px; height: 14px; background: #ff4d6d; border-radius: 50% 0 50% 50%; animation: fall 3s linear infinite; }
-    @keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(800px) rotate(360deg); opacity: 0; } }
+    /* =========================
+       ARROWS
+       ========================= */
 
-    .confetti { position: absolute; top: -10px; width: 8px; height: 12px; background: gold; animation: cFall 2.5s ease-in infinite; }
-    @keyframes cFall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(800px) rotate(720deg); opacity: 0; } }
+    .arrow-btn {
+      position: absolute;
 
-    /* Password Modal with Back Button */
-    .modal { position: absolute; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; display: none; justify-content: center; align-items: center; }
-    .modal.active { display: flex; }
-    .modal-box { background: #fcfbf7; width: 85%; padding: 20px; border-radius: 12px; border: 2px solid #b8860b; text-align: center; }
-    .modal-input { width: 100%; padding: 10px; border: 1px solid #cca043; border-radius: 6px; margin: 12px 0; text-align: center; }
-    .modal-btn { padding: 10px; background: #b8860b; color: #fff; border: none; border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 6px; }
-    .modal-btn-back { background: #666; }
+      top: 46%;
+
+      width: clamp(30px, 9vw, 38px);
+      height: clamp(30px, 9vw, 38px);
+
+      background: rgba(184, 134, 11, 0.9);
+
+      color: #ffffff;
+
+      border: 1px solid #ffffff;
+
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size:
+        clamp(
+          0.9rem,
+          4vw,
+          1.1rem
+        );
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      z-index: 99;
+
+      box-shadow:
+        0 4px 12px
+        rgba(0, 0, 0, 0.3);
+
+      touch-action: manipulation;
+
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .arrow-btn-left {
+      left: 8px;
+
+      transform:
+        translateY(-50%)
+        rotate(180deg);
+    }
+
+    .arrow-btn-right {
+      right: 8px;
+
+      transform: translateY(-50%);
+    }
+
+    .arrow-btn.disabled {
+      opacity: 0.2;
+
+      pointer-events: none;
+    }
+
+
+    /* =========================
+       BOTTOM NAVIGATION
+       ========================= */
+
+    .nav-dock-container {
+      position: fixed;
+
+      left: 50%;
+
+      bottom:
+        max(
+          8px,
+          env(safe-area-inset-bottom)
+        );
+
+      transform: translateX(-50%);
+
+      width:
+        min(
+          96vw,
+          430px
+        );
+
+      background:
+        rgba(
+          252,
+          251,
+          247,
+          0.97
+        );
+
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+
+      border:
+        1px solid
+        rgba(
+          184,
+          134,
+          11,
+          0.4
+        );
+
+      border-radius: 10px;
+
+      padding: 4px 6px;
+
+      box-shadow:
+        0 4px 15px
+        rgba(0, 0, 0, 0.25);
+
+      z-index: 500;
+
+      display: none;
+
+      touch-action: pan-x;
+    }
+
+    .nav-dock-container.active {
+      display: block;
+    }
+
+    .nav-dock-scroll {
+      display: flex;
+
+      gap: 8px;
+
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      scroll-behavior: smooth;
+
+      padding-bottom: 2px;
+
+      -webkit-overflow-scrolling: touch;
+
+      scrollbar-width: none;
+    }
+
+    .nav-dock-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-group {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 3px;
+
+      flex: 0 0 auto;
+
+      border-right:
+        1px dashed
+        rgba(
+          184,
+          134,
+          11,
+          0.3
+        );
+
+      padding-right: 6px;
+    }
+
+    .nav-group:last-child {
+      border-right: none;
+
+      padding-right: 0;
+    }
+
+    .nav-group-title {
+      font-size: 0.6rem;
+
+      font-weight: bold;
+
+      color: #721c24;
+
+      text-transform: uppercase;
+
+      text-align: center;
+
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .nav-thumbs-row {
+      display: flex;
+
+      gap: 3px;
+    }
+
+    .nav-thumb {
+      width: 26px;
+      height: 36px;
+
+      border-radius: 3px;
+
+      overflow: hidden;
+
+      border: 1.5px solid transparent;
+
+      cursor: pointer;
+
+      background: #eeeeee;
+
+      flex: 0 0 auto;
+
+      touch-action: manipulation;
+
+      -webkit-tap-highlight-color: transparent;
+
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    .nav-thumb img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      pointer-events: none;
+    }
+
+    .nav-thumb.active-thumb {
+      border-color: #b8860b;
+
+      box-shadow:
+        0 0 5px
+        rgba(184, 134, 11, 0.8);
+    }
+
+    .nav-thumb.locked-thumb {
+      opacity: 0.4;
+
+      filter: grayscale(1);
+    }
+
+
+    /* =========================
+       HOTSPOTS
+       ========================= */
+
+    .stamp-hotspot,
+    .party-hotspot {
+      position: absolute;
+
+      cursor: pointer;
+
+      border: 2px solid transparent;
+
+      border-radius: 8px;
+
+      z-index: 30;
+
+      touch-action: manipulation;
+
+      -webkit-tap-highlight-color: transparent;
+
+      -webkit-touch-callout: none;
+    }
+
+    .stamp-hotspot {
+      width: 38%;
+      height: 42%;
+
+      top: 26%;
+    }
+
+    .stamp-ladkewale {
+      left: 9%;
+    }
+
+    .stamp-ladkiwale {
+      right: 9%;
+    }
+
+    .party-hotspot {
+      top: 26%;
+
+      height: 42%;
+      width: 38%;
+    }
+
+    .party-hotspot-view {
+      left: 9%;
+    }
+
+    .party-hotspot-skip {
+      right: 9%;
+    }
+
+
+    /* ========================================
+       HALDI COLOUR SPLASH
+       Real splatter style rather than circles
+       ======================================== */
+
+    .holi-splash-overlay {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      pointer-events: none;
+
+      z-index: 20;
+
+      overflow: hidden;
+    }
+
+
+    .holi-splash {
+      position: absolute;
+
+      width: 48%;
+      aspect-ratio: 1;
+
+      opacity: 0;
+
+      mix-blend-mode: multiply;
+
+      transform:
+        scale(0.1)
+        rotate(var(--rotation));
+
+      background:
+
+        radial-gradient(
+          circle at 50% 50%,
+          var(--splash-color) 0 26%,
+          transparent 27%
+        ),
+
+        radial-gradient(
+          circle at 28% 40%,
+          var(--splash-color) 0 13%,
+          transparent 14%
+        ),
+
+        radial-gradient(
+          circle at 70% 38%,
+          var(--splash-color) 0 14%,
+          transparent 15%
+        ),
+
+        radial-gradient(
+          circle at 42% 22%,
+          var(--splash-color) 0 11%,
+          transparent 12%
+        ),
+
+        radial-gradient(
+          circle at 63% 70%,
+          var(--splash-color) 0 12%,
+          transparent 13%
+        ),
+
+        radial-gradient(
+          circle at 20% 67%,
+          var(--splash-color) 0 8%,
+          transparent 9%
+        ),
+
+        radial-gradient(
+          circle at 83% 58%,
+          var(--splash-color) 0 7%,
+          transparent 8%
+        ),
+
+        radial-gradient(
+          circle at 13% 25%,
+          var(--splash-color) 0 4%,
+          transparent 5%
+        ),
+
+        radial-gradient(
+          circle at 88% 28%,
+          var(--splash-color) 0 4%,
+          transparent 5%
+        ),
+
+        radial-gradient(
+          circle at 35% 87%,
+          var(--splash-color) 0 5%,
+          transparent 6%
+        ),
+
+        radial-gradient(
+          circle at 73% 90%,
+          var(--splash-color) 0 3.5%,
+          transparent 4.5%
+        ),
+
+        radial-gradient(
+          ellipse at center,
+          var(--splash-color) 0 38%,
+          transparent 39%
+        );
+
+      filter: saturate(1.2);
+    }
+
+
+    .holi-splash-one {
+      left: -7%;
+
+      top: 25%;
+
+      --rotation: -18deg;
+
+      --splash-color:
+        rgba(
+          255,
+          193,
+          7,
+          0.82
+        );
+    }
+
+
+    .holi-splash-two {
+      right: -8%;
+
+      top: 38%;
+
+      --rotation: 19deg;
+
+      --splash-color:
+        rgba(
+          236,
+          37,
+          112,
+          0.76
+        );
+    }
+
+
+    .holi-splash-three {
+      left: 24%;
+
+      top: 47%;
+
+      width: 42%;
+
+      --rotation: 8deg;
+
+      --splash-color:
+        rgba(
+          255,
+          111,
+          0,
+          0.72
+        );
+    }
+
+
+    .holi-splash-four {
+      right: 14%;
+
+      top: 20%;
+
+      width: 34%;
+
+      --rotation: -10deg;
+
+      --splash-color:
+        rgba(
+          54,
+          180,
+          87,
+          0.58
+        );
+    }
+
+
+    #page11Wrapper.active
+    .holi-splash-one {
+      animation:
+        holiSplashPop
+        1.2s
+        cubic-bezier(
+          0.17,
+          0.67,
+          0.26,
+          1.25
+        )
+        0.05s
+        both;
+    }
+
+
+    #page11Wrapper.active
+    .holi-splash-two {
+      animation:
+        holiSplashPop
+        1.25s
+        cubic-bezier(
+          0.17,
+          0.67,
+          0.26,
+          1.25
+        )
+        0.18s
+        both;
+    }
+
+
+    #page11Wrapper.active
+    .holi-splash-three {
+      animation:
+        holiSplashPop
+        1.3s
+        cubic-bezier(
+          0.17,
+          0.67,
+          0.26,
+          1.25
+        )
+        0.30s
+        both;
+    }
+
+
+    #page11Wrapper.active
+    .holi-splash-four {
+      animation:
+        holiSplashPop
+        1.2s
+        cubic-bezier(
+          0.17,
+          0.67,
+          0.26,
+          1.25
+        )
+        0.42s
+        both;
+    }
+
+
+    @keyframes holiSplashPop {
+
+      0% {
+        opacity: 0;
+
+        transform:
+          scale(0.08)
+          rotate(var(--rotation));
+      }
+
+      45% {
+        opacity: 1;
+
+        transform:
+          scale(1.12)
+          rotate(var(--rotation));
+      }
+
+      70% {
+        transform:
+          scale(0.96)
+          rotate(var(--rotation));
+      }
+
+      100% {
+        opacity: 0.88;
+
+        transform:
+          scale(1)
+          rotate(var(--rotation));
+      }
+
+    }
+
+
+    /* =========================
+       PETALS & CONFETTI
+       ========================= */
+
+    .rose-petals-overlay,
+    .confetti-overlay {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      pointer-events: none;
+
+      z-index: 20;
+
+      display: none;
+
+      overflow: hidden;
+    }
+
+    .rose-petals-overlay.active-anim,
+    .confetti-overlay.active-anim {
+      display: block;
+    }
+
+    .red-petal {
+      position: absolute;
+
+      top: -20px;
+
+      width: 12px;
+      height: 14px;
+
+      background: #ff4d6d;
+
+      border-radius:
+        50% 0 50% 50%;
+
+      animation:
+        fall
+        3s
+        linear
+        infinite;
+    }
+
+    @keyframes fall {
+
+      0% {
+        transform:
+          translateY(-20px)
+          rotate(0deg);
+
+        opacity: 1;
+      }
+
+      100% {
+        transform:
+          translateY(1400%)
+          rotate(360deg);
+
+        opacity: 0;
+      }
+
+    }
+
+    .confetti-piece {
+      position: absolute;
+
+      top: -10px;
+
+      width: 8px;
+      height: 12px;
+
+      background: gold;
+
+      animation:
+        cFall
+        2.5s
+        ease-in
+        infinite;
+    }
+
+    @keyframes cFall {
+
+      0% {
+        transform:
+          translateY(0)
+          rotate(0deg);
+
+        opacity: 1;
+      }
+
+      100% {
+        transform:
+          translateY(1400%)
+          rotate(720deg);
+
+        opacity: 0;
+      }
+
+    }
+
+
+    /* =========================
+       PASSWORD
+       ========================= */
+
+    .password-modal {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background:
+        rgba(
+          0,
+          0,
+          0,
+          0.72
+        );
+
+      z-index: 1000;
+
+      display: none;
+
+      justify-content: center;
+      align-items: center;
+
+      padding: 18px;
+    }
+
+    .password-modal.active {
+      display: flex;
+    }
+
+    .password-box {
+      background: #fcfbf7;
+
+      width: 88%;
+
+      max-width: 330px;
+
+      padding: 22px;
+
+      border-radius: 14px;
+
+      border:
+        2px solid
+        #b8860b;
+
+      text-align: center;
+
+      box-shadow:
+        0 12px 35px
+        rgba(0, 0, 0, 0.35);
+
+      user-select: auto;
+      -webkit-user-select: auto;
+    }
+
+    .password-box h3 {
+      color: #4b3520;
+
+      margin-bottom: 5px;
+
+      font-size: 1.05rem;
+    }
+
+    .password-input {
+      width: 100%;
+
+      padding: 11px;
+
+      border:
+        1px solid
+        #cca043;
+
+      border-radius: 7px;
+
+      margin:
+        12px 0;
+
+      text-align: center;
+
+      font-size: 16px;
+
+      background: #ffffff;
+
+      outline: none;
+
+      user-select: text;
+      -webkit-user-select: text;
+
+      -webkit-touch-callout: default;
+    }
+
+    .password-input:focus {
+      border-color: #b8860b;
+
+      box-shadow:
+        0 0 0 2px
+        rgba(184, 134, 11, 0.15);
+    }
+
+
+    .password-actions {
+      display: flex;
+
+      width: 100%;
+
+      gap: 8px;
+
+      margin-top: 2px;
+    }
+
+
+    .pass-btn {
+      padding: 10px 12px;
+
+      border: none;
+
+      border-radius: 7px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      flex: 1;
+
+      font-size: 0.9rem;
+
+      touch-action: manipulation;
+
+      -webkit-tap-highlight-color: transparent;
+    }
+
+
+    .pass-btn-back {
+      background: #eee9df;
+
+      color: #5a4b3c;
+
+      border:
+        1px solid
+        #d2c7b8;
+    }
+
+
+    .pass-btn-unlock {
+      background: #b8860b;
+
+      color: #ffffff;
+    }
+
+
+    /* =========================
+       SMALL PHONES
+       ========================= */
+
+    @media (max-height: 650px) {
+
+      body {
+        padding-bottom:
+          calc(
+            62px +
+            env(safe-area-inset-bottom)
+          );
+      }
+
+      .card-container {
+        width: min(
+          100vw,
+          430px,
+          calc(
+            (
+              100dvh
+              - 62px
+              - env(safe-area-inset-top)
+              - env(safe-area-inset-bottom)
+            )
+            * 9 / 16
+          )
+        );
+
+        max-height:
+          calc(
+            100dvh
+            - 62px
+            - env(safe-area-inset-top)
+            - env(safe-area-inset-bottom)
+          );
+      }
+
+      .nav-thumb {
+        width: 22px;
+        height: 31px;
+      }
+
+      .nav-group-title {
+        font-size: 0.52rem;
+      }
+
+    }
+
   </style>
+
 </head>
+
+
 <body>
 
-  <div class="app-frame" id="appFrame">
-    <!-- Pages 1 to 20 -->
-    <div class="page-wrapper active" id="p0"><img src="1.png" class="page-img"><div class="envelope-hotspot" id="envBtn"><div class="open-badge">✉ Open Invitation</div></div></div>
-    <div class="page-wrapper" id="p1"><img src="2.png" class="page-img"></div>
-    <div class="page-wrapper" id="p2"><img src="3.png" class="page-img"></div>
-    <div class="page-wrapper" id="p3"><img src="4.png" class="page-img"></div>
-    
-    <div class="page-wrapper" id="p4"><img src="5.png" class="page-img"><div class="stamp-hotspot stamp-left" id="ladkewaleBtn"></div><div class="stamp-hotspot stamp-right" id="ladkiwaleBtn"></div></div>
-    
-    <div class="page-wrapper" id="p5"><img src="6.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="handleP6Right()">&#10132;</div></div>
-    <div class="page-wrapper" id="p6"><img src="7.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p7"><img src="8.png" class="page-img"><div class="arrow-btn arrow-left" onclick="handleP8Left()">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p8"><img src="9.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p9"><img src="10.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    
-    <div class="page-wrapper" id="p10"><img src="11.png" class="page-img"><div class="anim-layer active"><div style="background:#ff1493; top:20%; left:20%; width:100px; height:100px; position:absolute; border-radius:50%; opacity:0.8;"></div></div><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p11"><img src="12.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    
-    <div class="page-wrapper" id="p12"><img src="13.png" class="page-img"><div class="party-hotspot party-left" onclick="openModal()"></div><div class="party-hotspot party-right" onclick="skipParty()"></div><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="openModal()">&#10132;</div></div>
-    <div class="page-wrapper" id="p13"><img src="14.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p14"><img src="15.png" class="page-img"><div class="arrow-btn arrow-left" onclick="handleP15Left()">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p15"><img src="16.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    
-    <div class="page-wrapper" id="p16"><img src="17.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p17"><img src="18.png" class="page-img"><div class="anim-layer active"><div class="petal" style="left:20%;"></div><div class="petal" style="left:70%; animation-delay:1s;"></div></div><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p18"><img src="19.png" class="page-img"><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right" onclick="changeSlide(1)">&#10132;</div></div>
-    <div class="page-wrapper" id="p19"><img src="20.png" class="page-img"><div class="anim-layer active"><div class="confetti" style="left:30%;"></div><div class="confetti" style="left:80%; animation-delay:0.5s;"></div></div><div class="arrow-btn arrow-left" onclick="changeSlide(-1)">&#10132;</div><div class="arrow-btn arrow-right disabled">&#10132;</div></div>
 
-    <!-- Password Modal with Back Button -->
-    <div class="modal" id="passModal">
-      <div class="modal-box">
-        <h3>🔒 Secret Party Access</h3>
-        <input type="password" id="passVal" class="modal-input" placeholder="Password...">
-        <button class="modal-btn" onclick="verifyPass()">Unlock</button>
-        <button class="modal-btn modal-btn-back" onclick="closeModal()">Back</button>
+  <div
+    class="card-container"
+    id="invitationApp"
+  >
+
+
+    <!-- PAGE 1 -->
+
+    <div
+      class="page-wrapper active"
+      id="page1Wrapper"
+    >
+
+      <img
+        src="1.png"
+        class="page-img"
+        alt="Envelope"
+        draggable="false"
+      >
+
+      <div
+        class="envelope-click-area"
+        id="envelopeHotspot"
+        role="button"
+        tabindex="0"
+        aria-label="Open Invitation"
+      >
+
+        <div class="click-badge">
+          ✉ Open Invitation
+        </div>
+
+        <div class="click-arrow">
+          ▼
+        </div>
+
       </div>
+
     </div>
+
+
+    <!-- PAGE 2 -->
+
+    <div
+      class="page-wrapper"
+      id="page2Wrapper"
+    >
+
+      <img
+        src="2.png"
+        class="page-img"
+        alt="Slide 2"
+        draggable="false"
+      >
+
+    </div>
+
+
+    <!-- PAGE 3 -->
+
+    <div
+      class="page-wrapper"
+      id="page3Wrapper"
+    >
+
+      <img
+        src="3.png"
+        class="page-img"
+        alt="Slide 3"
+        draggable="false"
+      >
+
+    </div>
+
+
+    <!-- PAGE 4 -->
+
+    <div
+      class="page-wrapper"
+      id="page4Wrapper"
+    >
+
+      <img
+        src="4.png"
+        class="page-img"
+        alt="Slide 4"
+        draggable="false"
+      >
+
+    </div>
+
+
+    <!-- PAGE 5 -->
+
+    <div
+      class="page-wrapper"
+      id="page5Wrapper"
+    >
+
+      <img
+        src="5.png"
+        class="page-img"
+        alt="Selection"
+        draggable="false"
+      >
+
+      <div
+        class="stamp-hotspot stamp-ladkewale"
+        id="ladkewaleBtn"
+      ></div>
+
+      <div
+        class="stamp-hotspot stamp-ladkiwale"
+        id="ladkiwaleBtn"
+      ></div>
+
+    </div>
+
+
+    <!-- PAGE 6 -->
+
+    <div
+      class="page-wrapper"
+      id="page6Wrapper"
+    >
+
+      <img
+        src="6.png"
+        class="page-img"
+        alt="6"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="handlePage6Right()"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 7 -->
+
+    <div
+      class="page-wrapper"
+      id="page7Wrapper"
+    >
+
+      <img
+        src="7.png"
+        class="page-img"
+        alt="7"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 8 -->
+
+    <div
+      class="page-wrapper"
+      id="page8Wrapper"
+    >
+
+      <img
+        src="8.png"
+        class="page-img"
+        alt="8"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="handlePage8Left()"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 9 -->
+
+    <div
+      class="page-wrapper"
+      id="page9Wrapper"
+    >
+
+      <img
+        src="9.png"
+        class="page-img"
+        alt="9"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 10 -->
+
+    <div
+      class="page-wrapper"
+      id="page10Wrapper"
+    >
+
+      <img
+        src="10.png"
+        class="page-img"
+        alt="10"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 11 - HALDI COLOUR SPLASH -->
+
+    <div
+      class="page-wrapper"
+      id="page11Wrapper"
+    >
+
+      <img
+        src="11.png"
+        class="page-img"
+        alt="11"
+        draggable="false"
+      >
+
+
+      <div class="holi-splash-overlay">
+
+        <div
+          class="holi-splash holi-splash-one"
+        ></div>
+
+        <div
+          class="holi-splash holi-splash-two"
+        ></div>
+
+        <div
+          class="holi-splash holi-splash-three"
+        ></div>
+
+        <div
+          class="holi-splash holi-splash-four"
+        ></div>
+
+      </div>
+
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 12 -->
+
+    <div
+      class="page-wrapper"
+      id="page12Wrapper"
+    >
+
+      <img
+        src="12.png"
+        class="page-img"
+        alt="12"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 13 -->
+
+    <div
+      class="page-wrapper"
+      id="page13Wrapper"
+    >
+
+      <img
+        src="13.png"
+        class="page-img"
+        alt="13"
+        draggable="false"
+      >
+
+      <div
+        class="party-hotspot party-hotspot-view"
+        id="viewPartyBtn"
+      ></div>
+
+      <div
+        class="party-hotspot party-hotspot-skip"
+        id="skipPartyBtn"
+      ></div>
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="openPasswordModal()"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 14 -->
+
+    <div
+      class="page-wrapper"
+      id="page14Wrapper"
+    >
+
+      <img
+        src="14.png"
+        class="page-img"
+        alt="14"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 15 -->
+
+    <div
+      class="page-wrapper"
+      id="page15Wrapper"
+    >
+
+      <img
+        src="15.png"
+        class="page-img"
+        alt="15"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="handlePage15Left()"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 16 -->
+
+    <div
+      class="page-wrapper"
+      id="page16Wrapper"
+    >
+
+      <img
+        src="16.png"
+        class="page-img"
+        alt="16"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 17 - HEADLIGHTS REMOVED -->
+
+    <div
+      class="page-wrapper"
+      id="page17Wrapper"
+    >
+
+      <img
+        src="17.png"
+        class="page-img"
+        alt="17"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 18 -->
+
+    <div
+      class="page-wrapper"
+      id="page18Wrapper"
+    >
+
+      <img
+        src="18.png"
+        class="page-img"
+        alt="18"
+        draggable="false"
+      >
+
+      <div
+        class="rose-petals-overlay active-anim"
+      >
+
+        <div
+          class="red-petal"
+          style="
+            left:15%;
+            animation-delay:0s;
+          "
+        ></div>
+
+        <div
+          class="red-petal"
+          style="
+            left:45%;
+            animation-delay:1.2s;
+          "
+        ></div>
+
+        <div
+          class="red-petal"
+          style="
+            left:80%;
+            animation-delay:0.6s;
+          "
+        ></div>
+
+      </div>
+
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 19 -->
+
+    <div
+      class="page-wrapper"
+      id="page19Wrapper"
+    >
+
+      <img
+        src="19.png"
+        class="page-img"
+        alt="19"
+        draggable="false"
+      >
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right"
+        onclick="changePage(1)"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PAGE 20 -->
+
+    <div
+      class="page-wrapper"
+      id="page20Wrapper"
+    >
+
+      <img
+        src="20.png"
+        class="page-img"
+        alt="20"
+        draggable="false"
+      >
+
+      <div
+        class="confetti-overlay active-anim"
+      >
+
+        <div
+          class="confetti-piece"
+          style="
+            left:20%;
+            background:#ff4d6d;
+            animation-delay:0.2s;
+          "
+        ></div>
+
+        <div
+          class="confetti-piece"
+          style="
+            left:50%;
+            background:#ffd700;
+            animation-delay:0.8s;
+          "
+        ></div>
+
+        <div
+          class="confetti-piece"
+          style="
+            left:85%;
+            background:#00e676;
+            animation-delay:0.4s;
+          "
+        ></div>
+
+      </div>
+
+
+      <div
+        class="arrow-btn arrow-btn-left"
+        onclick="changePage(-1)"
+      >
+        &#10132;
+      </div>
+
+      <div
+        class="arrow-btn arrow-btn-right disabled"
+      >
+        &#10132;
+      </div>
+
+    </div>
+
+
+    <!-- PASSWORD -->
+
+    <div
+      class="password-modal"
+      id="passwordModal"
+    >
+
+      <div class="password-box">
+
+        <h3>
+          🔒 Secret Party Access
+        </h3>
+
+
+        <input
+          type="password"
+          id="passInput"
+          class="password-input"
+          placeholder="Password..."
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+        >
+
+
+        <div class="password-actions">
+
+          <button
+            class="pass-btn pass-btn-back"
+            type="button"
+            onclick="closePasswordModal()"
+          >
+            ← Back
+          </button>
+
+
+          <button
+            class="pass-btn pass-btn-unlock"
+            type="button"
+            onclick="verifyPassword()"
+          >
+            Unlock
+          </button>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
   </div>
 
+
+  <!-- =========================
+       BOTTOM NAVIGATION
+       ========================= -->
+
+  <div
+    class="nav-dock-container"
+    id="navDock"
+  >
+
+    <div class="nav-dock-scroll">
+
+
+      <!-- DAY 1 -->
+
+      <div class="nav-group">
+
+        <div class="nav-group-title">
+          Day 1
+        </div>
+
+        <div class="nav-thumbs-row">
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(4)"
+          >
+            <img
+              src="5.png"
+              alt="Page 5"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(5)"
+          >
+            <img
+              src="6.png"
+              alt="Page 6"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(6)"
+            id="thumb7"
+          >
+            <img
+              src="7.png"
+              alt="Page 7"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(7)"
+          >
+            <img
+              src="8.png"
+              alt="Page 8"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(8)"
+          >
+            <img
+              src="9.png"
+              alt="Page 9"
+              draggable="false"
+            >
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DAY 2 -->
+
+      <div class="nav-group">
+
+        <div class="nav-group-title">
+          Day 2
+        </div>
+
+        <div class="nav-thumbs-row">
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(9)"
+          >
+            <img
+              src="10.png"
+              alt="Page 10"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(10)"
+          >
+            <img
+              src="11.png"
+              alt="Page 11"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(11)"
+          >
+            <img
+              src="12.png"
+              alt="Page 12"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(12)"
+          >
+            <img
+              src="13.png"
+              alt="Page 13"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb locked-thumb"
+            onclick="goToPage(13)"
+            id="thumb14"
+          >
+            <img
+              src="14.png"
+              alt="Page 14"
+              draggable="false"
+            >
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DAY 3 -->
+
+      <div class="nav-group">
+
+        <div class="nav-group-title">
+          Day 3
+        </div>
+
+        <div class="nav-thumbs-row">
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(14)"
+          >
+            <img
+              src="15.png"
+              alt="Page 15"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(15)"
+          >
+            <img
+              src="16.png"
+              alt="Page 16"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(16)"
+          >
+            <img
+              src="17.png"
+              alt="Page 17"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(17)"
+          >
+            <img
+              src="18.png"
+              alt="Page 18"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(18)"
+          >
+            <img
+              src="19.png"
+              alt="Page 19"
+              draggable="false"
+            >
+          </div>
+
+
+          <div
+            class="nav-thumb"
+            onclick="goToPage(19)"
+          >
+            <img
+              src="20.png"
+              alt="Page 20"
+              draggable="false"
+            >
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
   <script>
-    for(let i=1; i<=20; i++) { const im = new Image(); im.src = i + '.png'; }
 
-    const pages = document.querySelectorAll('.page-wrapper');
-    let currentIdx = 0;
-    let side = 'ladkewale';
-    let skipped = false;
-    let unlocked = false;
+    /* =========================
+       PRELOAD IMAGES
+       ========================= */
 
-    function goToSlide(idx) {
-      if(idx === 13 && !unlocked) { openModal(); return; }
-      if(idx < 0 || idx >= pages.length) return;
-      pages[currentIdx].classList.remove('active');
-      currentIdx = idx;
-      pages[currentIdx].classList.add('active');
-    }
+    const imageFiles = [
+      '1.png',
+      '2.png',
+      '3.png',
+      '4.png',
+      '5.png',
+      '6.png',
+      '7.png',
+      '8.png',
+      '9.png',
+      '10.png',
+      '11.png',
+      '12.png',
+      '13.png',
+      '14.png',
+      '15.png',
+      '16.png',
+      '17.png',
+      '18.png',
+      '19.png',
+      '20.png'
+    ];
 
-    function changeSlide(step) {
-      let next = currentIdx + step;
-      if(side === 'ladkiwale' && currentIdx === 5 && step > 0) next = 7;
-      else if(side === 'ladkiwale' && currentIdx === 7 && step < 0) next = 5;
 
-      if(skipped && currentIdx === 12 && step > 0) next = 14;
-      else if(skipped && currentIdx === 14 && step < 0) next = 12;
+    imageFiles.forEach(src => {
 
-      goToSlide(next);
-    }
+      const img =
+        new Image();
 
-    document.getElementById('envBtn').addEventListener('click', () => {
-      let step = 0;
-      let t = setInterval(() => {
-        step++;
-        if(step <= 4) {
-          pages[step-1].classList.remove('active');
-          pages[step].classList.add('active');
-        } else { clearInterval(t); goToSlide(4); }
-      }, 300);
+      img.src = src;
+
     });
 
-    document.getElementById('ladkewaleBtn').addEventListener('click', () => { side = 'ladkewale'; goToSlide(5); });
-    document.getElementById('ladkiwaleBtn').addEventListener('click', () => { side = 'ladkiwale'; goToSlide(5); });
 
-    function handleP6Right() { if(side==='ladkiwale') goToSlide(7); else goToSlide(6); }
-    function handleP8Left() { if(side==='ladkiwale') goToSlide(5); else goToSlide(6); }
-    function handleP15Left() { if(skipped) goToSlide(12); else goToSlide(13); }
+    /* =========================
+       VARIABLES
+       ========================= */
 
-    function openModal() { document.getElementById('passModal').classList.add('active'); }
-    function closeModal() { document.getElementById('passModal').classList.remove('active'); }
-    function skipParty() { skipped = true; goToSlide(14); }
-    
-    function verifyPass() {
-      // Password set strictly to Trishnaisthebest (Capital T, rest lowercase)
-      if(document.getElementById('passVal').value.trim() === 'Trishnaisthebest') {
-        document.getElementById('passModal').classList.remove('active');
-        unlocked = true; skipped = false;
-        goToSlide(13);
-      } else { alert('Incorrect Password!'); }
+    const pages =
+      document.querySelectorAll(
+        '.page-wrapper'
+      );
+
+
+    let currentIndex = 0;
+
+    let selectedSide =
+      'ladkewale';
+
+    let partySkipped =
+      false;
+
+    let partyUnlocked =
+      false;
+
+    let invitationOpening =
+      false;
+
+
+    /* =========================
+       STOP GOOGLE SEARCH /
+       LONG PRESS / IMAGE DRAG
+       ========================= */
+
+    document.addEventListener(
+      'contextmenu',
+      function(event) {
+
+        if (
+          !event.target.closest(
+            'input'
+          )
+        ) {
+
+          event.preventDefault();
+
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      'dragstart',
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    document.addEventListener(
+      'selectstart',
+      function(event) {
+
+        if (
+          !event.target.closest(
+            'input'
+          )
+        ) {
+
+          event.preventDefault();
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       PAGE NAVIGATION
+       ========================= */
+
+    function goToPage(index) {
+
+
+      if (
+        index === 13 &&
+        !partyUnlocked
+      ) {
+
+        openPasswordModal();
+
+        return;
+
+      }
+
+
+      if (
+        index < 0 ||
+        index >= pages.length
+      ) {
+
+        return;
+
+      }
+
+
+      pages[currentIndex]
+        .classList
+        .remove('active');
+
+
+      currentIndex = index;
+
+
+      pages[currentIndex]
+        .classList
+        .add('active');
+
+
+      if (
+        currentIndex >= 4
+      ) {
+
+        document
+          .getElementById(
+            'navDock'
+          )
+          .classList
+          .add('active');
+
+      } else {
+
+        document
+          .getElementById(
+            'navDock'
+          )
+          .classList
+          .remove('active');
+
+      }
+
+
+      updateThumbnails();
+
     }
+
+
+    function changePage(step) {
+
+
+      let next =
+        currentIndex + step;
+
+
+      if (
+
+        selectedSide ===
+          'ladkiwale'
+
+        &&
+
+        currentIndex === 5
+
+        &&
+
+        step > 0
+
+      ) {
+
+        next = 7;
+
+      }
+
+
+      else if (
+
+        selectedSide ===
+          'ladkiwale'
+
+        &&
+
+        currentIndex === 7
+
+        &&
+
+        step < 0
+
+      ) {
+
+        next = 5;
+
+      }
+
+
+      if (
+
+        partySkipped
+
+        &&
+
+        currentIndex === 12
+
+        &&
+
+        step > 0
+
+      ) {
+
+        next = 14;
+
+      }
+
+
+      else if (
+
+        partySkipped
+
+        &&
+
+        currentIndex === 14
+
+        &&
+
+        step < 0
+
+      ) {
+
+        next = 12;
+
+      }
+
+
+      goToPage(next);
+
+    }
+
+
+    /* =========================
+       THUMBNAILS
+       ========================= */
+
+    function updateThumbnails() {
+
+
+      const thumbs =
+        document.querySelectorAll(
+          '.nav-thumb'
+        );
+
+
+      thumbs.forEach(
+        (thumb, i) => {
+
+
+          if (
+            i + 4 ===
+            currentIndex
+          ) {
+
+
+            thumb.classList.add(
+              'active-thumb'
+            );
+
+
+            thumb.scrollIntoView({
+
+              behavior: 'smooth',
+
+              block: 'nearest',
+
+              inline: 'center'
+
+            });
+
+
+          } else {
+
+
+            thumb.classList.remove(
+              'active-thumb'
+            );
+
+
+          }
+
+        }
+      );
+
+    }
+
+
+    /* =========================
+       OPEN INVITATION
+       ========================= */
+
+    const envelopeHotspot =
+      document.getElementById(
+        'envelopeHotspot'
+      );
+
+
+    function openInvitation() {
+
+
+      if (
+        invitationOpening
+      ) {
+
+        return;
+
+      }
+
+
+      invitationOpening =
+        true;
+
+
+      let step = 0;
+
+
+      const interval =
+        setInterval(
+          function() {
+
+
+            step++;
+
+
+            if (
+              step <= 4
+            ) {
+
+
+              pages[
+                step - 1
+              ]
+                .classList
+                .remove(
+                  'active'
+                );
+
+
+              pages[
+                step
+              ]
+                .classList
+                .add(
+                  'active'
+                );
+
+
+            } else {
+
+
+              clearInterval(
+                interval
+              );
+
+
+              goToPage(4);
+
+
+              invitationOpening =
+                false;
+
+
+            }
+
+
+          },
+          350
+        );
+
+    }
+
+
+    envelopeHotspot.addEventListener(
+      'pointerdown',
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    envelopeHotspot.addEventListener(
+      'pointerup',
+      function(event) {
+
+        event.preventDefault();
+
+        event.stopPropagation();
+
+        openInvitation();
+
+      }
+    );
+
+
+    envelopeHotspot.addEventListener(
+      'contextmenu',
+      function(event) {
+
+        event.preventDefault();
+
+      }
+    );
+
+
+    envelopeHotspot.addEventListener(
+      'keydown',
+      function(event) {
+
+        if (
+          event.key === 'Enter'
+          ||
+          event.key === ' '
+        ) {
+
+          event.preventDefault();
+
+          openInvitation();
+
+        }
+
+      }
+    );
+
+
+    /* =========================
+       LADKEWALE / LADKIWALE
+       ========================= */
+
+    document
+      .getElementById(
+        'ladkewaleBtn'
+      )
+      .addEventListener(
+        'click',
+        function() {
+
+
+          selectedSide =
+            'ladkewale';
+
+
+          document
+            .getElementById(
+              'thumb7'
+            )
+            .style
+            .display =
+              'block';
+
+
+          goToPage(5);
+
+
+        }
+      );
+
+
+    document
+      .getElementById(
+        'ladkiwaleBtn'
+      )
+      .addEventListener(
+        'click',
+        function() {
+
+
+          selectedSide =
+            'ladkiwale';
+
+
+          document
+            .getElementById(
+              'thumb7'
+            )
+            .style
+            .display =
+              'none';
+
+
+          goToPage(5);
+
+
+        }
+      );
+
+
+    /* =========================
+       SPECIAL PAGE ROUTES
+       ========================= */
+
+    function handlePage6Right() {
+
+
+      if (
+        selectedSide ===
+        'ladkiwale'
+      ) {
+
+        goToPage(7);
+
+      } else {
+
+        goToPage(6);
+
+      }
+
+    }
+
+
+    function handlePage8Left() {
+
+
+      if (
+        selectedSide ===
+        'ladkiwale'
+      ) {
+
+        goToPage(5);
+
+      } else {
+
+        goToPage(6);
+
+      }
+
+    }
+
+
+    function handlePage15Left() {
+
+
+      if (
+        partySkipped
+      ) {
+
+        goToPage(12);
+
+      } else {
+
+        goToPage(13);
+
+      }
+
+    }
+
+
+    /* =========================
+       SECRET PARTY
+       ========================= */
+
+    document
+      .getElementById(
+        'viewPartyBtn'
+      )
+      .addEventListener(
+        'click',
+        openPasswordModal
+      );
+
+
+    document
+      .getElementById(
+        'skipPartyBtn'
+      )
+      .addEventListener(
+        'click',
+        function() {
+
+
+          partySkipped =
+            true;
+
+
+          goToPage(14);
+
+
+        }
+      );
+
+
+    /* =========================
+       PASSWORD
+       ========================= */
+
+    function openPasswordModal() {
+
+
+      document
+        .getElementById(
+          'passwordModal'
+        )
+        .classList
+        .add('active');
+
+
+      setTimeout(
+        function() {
+
+
+          document
+            .getElementById(
+              'passInput'
+            )
+            .focus();
+
+
+        },
+        100
+      );
+
+    }
+
+
+    function closePasswordModal() {
+
+
+      const modal =
+        document.getElementById(
+          'passwordModal'
+        );
+
+
+      const input =
+        document.getElementById(
+          'passInput'
+        );
+
+
+      modal
+        .classList
+        .remove('active');
+
+
+      input.value = '';
+
+
+      input.blur();
+
+    }
+
+
+    function verifyPassword() {
+
+
+      const input =
+        document.getElementById(
+          'passInput'
+        );
+
+
+      const val =
+        input
+          .value
+          .trim();
+
+
+      /*
+        PASSWORD IS CASE-SENSITIVE
+
+        Correct:
+        Trishnaisthebest
+
+        Capital T
+        Everything else lowercase
+      */
+
+      if (
+        val ===
+        'Trishnaisthebest'
+      ) {
+
+
+        document
+          .getElementById(
+            'passwordModal'
+          )
+          .classList
+          .remove('active');
+
+
+        partyUnlocked =
+          true;
+
+
+        partySkipped =
+          false;
+
+
+        document
+          .getElementById(
+            'thumb14'
+          )
+          .classList
+          .remove(
+            'locked-thumb'
+          );
+
+
+        input.value = '';
+
+
+        goToPage(13);
+
+
+      } else {
+
+
+        alert(
+          'Incorrect Password!'
+        );
+
+
+        input.value = '';
+
+
+        input.focus();
+
+
+      }
+
+    }
+
+
+    document
+      .getElementById(
+        'passInput'
+      )
+      .addEventListener(
+        'keydown',
+        function(event) {
+
+
+          if (
+            event.key ===
+            'Enter'
+          ) {
+
+
+            event.preventDefault();
+
+
+            verifyPassword();
+
+
+          }
+
+
+        }
+      );
+
+
   </script>
+
+
 </body>
+
 </html>
